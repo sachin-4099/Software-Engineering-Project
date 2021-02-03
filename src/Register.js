@@ -5,9 +5,9 @@ const Register = () => {
 		<>
 			<div class="wrapper">
 			  <div class="container">
-			    <h1>Welcome</h1>
+			    <h1 className="whitetext">Welcome</h1>
 			    
-			    <form class="form">
+			    <form class="loginform">
 			      <input type="text" placeholder="First Name" />
 			      <input type="text" placeholder="Last Name" />
 			      <input type="email" placeholder="Email Address" />

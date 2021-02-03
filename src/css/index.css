@@ -1,14 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: "Muli", sans-serif;
 	font-weight: 300;
+	font-family: 'Source Sans Pro', sans-serif;
 }
-
-@prim: #53e3a6;
 
 .navbar {
 	background-color: #fff !important;
@@ -22,6 +20,10 @@
 .navbar a {
 	font-size: 1.3rem;
 	text-transform: capitalize;
+}
+
+.bg-light {
+    background-color: #fff !important;
 }
 
 .menu_active {

@@ -1,20 +1,20 @@
 import React from 'react';
-import "./style.css"
+
 const Login = () => {
 	return (
 		<>
-			<div class="wrapper">
-			  <div class="container">
-			    <h1>Welcome</h1>
+			<div className="wrapper">
+			  <div className="container">
+			    <h1 className="whitetext">Login to Gullak</h1>
 			    
-			    <form class="form">
+			    <form className="loginform">
 			      <input type="text" placeholder="Username" />
 			      <input type="password" placeholder="Password" />
 			      <button type="submit" id="login-button">Login</button>
 			    </form>
 			  </div>
 			  
-			  <ul class="bg-bubbles">
+			  <ul className="bg-bubbles">
 			    <li></li>
 			    <li></li>
 			    <li></li>

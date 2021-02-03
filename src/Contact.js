@@ -10,26 +10,26 @@ const Contact = () => {
 				<div className="row">
 					<div className="col-md-6 col-10 mx-auto">
 						<form>
-						  <div class="mb-3">
-						    <label for="exampleFormControlInput1" class="form-label"> Full Name </label>
+						  <div className="mb-3">
+						    <label for="exampleFormControlInput1" className="form-label"> Full Name </label>
 						    <input 
 							    type="text" 
-							    class="form-control" 
+							    className="form-control" 
 							    id="exampleFormControlInput1" 
 							    placeholder="Enter your name" 
 						    />
 						  </div>						
-						  <div class="mb-3">
-						    <label for="exampleFormControlInput1" class="form-label"> Email Address </label>
+						  <div className="mb-3">
+						    <label for="exampleFormControlInput1" className="form-label"> Email Address </label>
 						    <input 
 							    type="email" 
-							    class="form-control" 
+							    className="form-control" 
 							    id="exampleFormControlInput1" 
 							    placeholder="name@example.com" 
 						    />
 						  </div>
-						  <div class="col-12">
-							  <button class="btn btn-outline-primary" type="submit">Submit form</button>
+						  <div className="col-12">
+							  <button className="btn btn-outline-primary" type="submit">Submit form</button>
 						  </div>						  
 						</form>
 					</div>
