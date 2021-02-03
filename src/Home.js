@@ -1,7 +1,7 @@
 import React from 'react';
 import Common from './Common';
-import web from "../src/images/gullak.jpg";
 import { useState, useEffect } from 'react';
+import web from "../src/images/gullak.png";
 
 const Home = () => {
 	const [testVar, setTestVar] = useState("ping");
@@ -12,7 +12,7 @@ const Home = () => {
 	  }, []);
 	return (
 		<>
-			<Common  name='Grow your business with' imgsrc={web} visit='/services' btname='Get Started'/>
+			<Common  name='Grow your money with' imgsrc={web} visit='/services' btname='Get Started'/>
 			<h>
 				Test API {testVar}
 			</h>

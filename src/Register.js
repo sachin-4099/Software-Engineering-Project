@@ -5,7 +5,7 @@ const Register = () => {
 		<>
 			<div class="wrapper">
 			  <div class="container">
-			    <h1 className="whitetext">Welcome</h1>
+			    <h1 className="whitetext">Welcome to Gullak</h1>
 			    
 			    <form class="loginform">
 			      <input type="text" placeholder="First Name" />

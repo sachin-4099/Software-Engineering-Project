@@ -1,4 +1,5 @@
 import React from 'react';
+import web from "../src/images/piggybank.jpg";
 import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
@@ -10,7 +11,7 @@ const Navbar = () => {
 							<nav className="navbar navbar-expand-lg navbar-light">
 							    <div className="container-fluid">
 								  <NavLink className="navbar-brand" to="/">
-									  Gullak
+									  <img src={web} className="img-fluid animated" alt="Common img" width="40px" height="40px" />
 								  </NavLink>
 								  <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 								    <span className="navbar-toggler-icon"></span>
@@ -21,8 +22,7 @@ const Navbar = () => {
 								        <NavLink 
 									        activeClassName="menu_active" 
 									        exact 
-									        className="nav-link active" 
-									        aria-current="page"
+									        className="nav-link" 
 									        to="/"
 								        >
 									        Home 
@@ -79,7 +79,7 @@ const Navbar = () => {
 								        <NavLink 
 									        activeClassName="menu_active" 
 									        exact 
-									        className="nav-link active" 
+									        className="nav-link" 
 									        to="/login"
 								        >
 									        Login 
