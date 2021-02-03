@@ -14,7 +14,7 @@ const Navbar = () => {
 								    <span className="navbar-toggler-icon"></span>
 								  </button>
 								  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-								    <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
+								    <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
 								      <li className="nav-item">
 								        <NavLink 
 									        activeClassName="menu_active" 
@@ -30,30 +30,69 @@ const Navbar = () => {
 								        <NavLink 
 									        activeClassName="menu_active" 
 									        className="nav-link" 
-									        to="/services"
+									        to="/partners"
 								        >
-									        Servcies
+									        Partners
 								        </NavLink>
 								      </li>
+		  						      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
+									        to="/invest"
+								        >
+									        Invest
+								        </NavLink>
+								      </li>								      
 		  						      <li className="nav-item">
 								        <NavLink 
 									        activeClassName="menu_active" 
 									        className="nav-link" 
 									        to="/about"
 								        >
-									        About
+									        About Us
 								        </NavLink>
 								      </li>
 		  						      <li className="nav-item">
 								        <NavLink 
 									        activeClassName="menu_active" 
 									        className="nav-link" 
+									        to="/blog"
+								        >
+									        Blog
+								        </NavLink>
+								      </li>								      
+		  						      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
 									        to="/contact"
 								        >
-									        Contact
+									        Contact Us
 								        </NavLink>
 								      </li>
 								    </ul>
+								    <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
+								      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        exact 
+									        className="nav-link active" 
+									        to="/login"
+								        >
+									        Login 
+								        </NavLink>
+								      </li>
+  								      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
+									        to="/register"
+								        >
+									        Get Started
+								        </NavLink>
+								      </li>
+							        </ul>
 								  </div>
 						    </div>
 						</nav>

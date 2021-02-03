@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import Sdata from './Sdata';
 
-const Services = () => {
+const Partners = () => {
 	return (
 		<>
 			<div className="my-5">
@@ -28,4 +28,4 @@ const Services = () => {
 	);
 };
 
-export default Services;
+export default Partners;
