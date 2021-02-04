@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Redirect } from "react-router-dom";
 const Register = () => {
     
     const [data, setData] = useState({
@@ -32,7 +32,7 @@ const Register = () => {
 		  });
 
 		  if(response.ok){
-				<nav>"/login"</nav>
+				<Redirect to="/login"/>
 		  }
     };
 
