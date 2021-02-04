@@ -1,30 +1,20 @@
-import web from "../src/images/gullak.jpg";
+import zomato from "../src/images/zomato.png";
+import swiggy from "../src/images/swiggy.png";
+import dominos from "../src/images/dominos.jpg";
 
 const Sdata = [
    {
-   	 imgsrc: web,
-   	 title: 'Web Development',
+   	 imgsrc: zomato,
+   	 title: 'Zomato',
    },
    {
-   	 imgsrc: web,
-   	 title: 'Android Development',
+   	 imgsrc: swiggy,
+   	 title: 'Swiggy',
    },
    {
-   	 imgsrc: web,
-   	 title: 'Software Development',
-   },
-   {
-   	 imgsrc: web,
-   	 title: 'App Development',
-   },
-   {
-   	 imgsrc: web,
-   	 title: 'Digital Marketing',
-   },
-   {
-   	 imgsrc: web,
-   	 title: 'Marketing',
-   },               
+   	 imgsrc: dominos,
+   	 title: "Domino's",
+   },        
 ];
 
 export default Sdata;

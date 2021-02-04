@@ -1,6 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Contact = () => {
+
+    const [data, setData] = useState({
+    	fname:'',
+    	email:'',
+    	msg:'',
+    });
+
+    const InputEvent = (event) => {
+      const { name, value } = event.target;
+
+      setData((preVal) => {
+          return {
+          	  ...preVal,
+          	  [name]: value,
+          }
+
+      })
+
+    };
+
+    const formSubmit = () => {
+
+
+    };
+
 	return (
 		<>
 			<div className="my-5">
@@ -9,13 +34,16 @@ const Contact = () => {
 			<div className="container contact_div">
 				<div className="row">
 					<div className="col-md-6 col-10 mx-auto">
-						<form>
+						<form onSubmit={formSubmit}>
 						  <div className="mb-3">
 						    <label for="exampleFormControlInput1" className="form-label"> Full Name </label>
 						    <input 
 							    type="text" 
 							    className="form-control" 
-							    id="exampleFormControlInput1" 
+							    id="exampleFormControlInput1"
+							    name="fname"
+							    value={data.fname}
+							    onChange={InputEvent} 
 							    placeholder="Enter your name" 
 						    />
 						  </div>						
@@ -24,9 +52,24 @@ const Contact = () => {
 						    <input 
 							    type="email" 
 							    className="form-control" 
-							    id="exampleFormControlInput1" 
-							    placeholder="name@example.com" 
+							    id="exampleFormControlInput1"
+							    name="email"
+							    value={data.email}
+							    onChange={InputEvent}  
+							    placeholder="Email Address" 
 						    />
+						  </div>						  
+  						  <div className="mb-3">
+						    <label for="exampleFormControlTextArea1" className="form-label"> Message </label>
+						    <textarea
+							    className="form-control" 
+							    id="exampleFormControlTextArea1" 
+							    rows="3"
+							    name="msg"
+							    value={data.msg}
+							    onChange={InputEvent} 
+							    placeholder="Enter your query"
+						    ></textarea>
 						  </div>
 						  <div className="col-12">
 							  <button className="btn btn-outline-primary" type="submit">Submit form</button>

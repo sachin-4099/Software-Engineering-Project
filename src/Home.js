@@ -12,7 +12,13 @@ const Home = () => {
 	  }, []);
 	return (
 		<>
-			<Common  name='Grow your money with' imgsrc={web} visit='/services' btname='Get Started'/>
+			<Common  
+				name='Grow your money with' 
+				imgsrc={web} 
+				visit='/register' 
+				btname='Get Started'
+				desc='We are a team of talented developers'
+			/>
 			<h>
 				Test API {testVar}
 			</h>

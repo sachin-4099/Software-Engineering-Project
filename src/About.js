@@ -1,11 +1,17 @@
 import React from 'react';
 import Common from './Common';
-import web from "../src/images/gullak.jpg";
+import vision from "../src/images/vision.jpeg";
 
 const About = () => {
 	return (
 		<>
-			<Common  name='Welcome to About Page' imgsrc={web} visit='/contact' btname='Contact Us'/>
+			<Common
+				name='Our Vision @ ' 
+				imgsrc={vision} 
+				visit='/contact' 
+				btname='Contact Us'
+				desc='To provide financial security and promote financial literacy by emphasizing on the importance of saving money'
+			/>
 		</>
 	);
 };
