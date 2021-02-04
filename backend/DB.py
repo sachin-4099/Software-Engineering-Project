@@ -22,7 +22,7 @@ def close_connection(conn):
     conn.close()
     print('Database connection closed.')
             
-# create table admindb(
+# create table user(
 #       uid SERIAL PRIMARY KEY, 
 #       firstname VARCHAR(255) NOT NULL,
 #       lastname VARCHAR(255),

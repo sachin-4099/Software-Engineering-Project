@@ -17,7 +17,7 @@ const Home = () => {
 				imgsrc={web} 
 				visit='/register' 
 				btname='Get Started'
-				desc='We are a team of talented developers'
+				desc='To help you save money with every transaction without any hassle'
 			/>
 			<h>
 				Test API {testVar}

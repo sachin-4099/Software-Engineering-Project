@@ -8,8 +8,8 @@ const About = () => {
 			<Common
 				name='Our Vision @ ' 
 				imgsrc={vision} 
-				visit='/contact' 
-				btname='Contact Us'
+				visit='/register' 
+				btname='Get Started'
 				desc='To provide financial security and promote financial literacy by emphasizing on the importance of saving money'
 			/>
 		</>
