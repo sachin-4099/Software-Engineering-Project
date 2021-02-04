@@ -33,16 +33,16 @@ def close_connection(conn):
 def check_if_exist(cur, uname):
     query= "Select password from userdb where username='{}'".format(uname)
     cur.execute(query)
-    res= cur.fetchone()[0]
+    res= cur.fetchone()
     print("in user db", res)
-    if(len(res)>0):
-        return ["User", res]
+    if(res != None):
+        return ["User", res[0]]
     query= "Select username, password from admindb where username='{}'".format(uname)
     cur.execute(query)
-    res= cur.fetchall()
+    res= cur.fetchone()
     print("in admin db", res)
-    if(len(res)>0):
-        return ["Admin", res]
+    if(res != None):
+        return ["Admin", res[0]]
     return False
 
 def add_user(fname, lname, uname, password):
@@ -60,8 +60,14 @@ def add_user(fname, lname, uname, password):
 def auth_user(uname, password):
     cur, conn= connect_to_db()
     res= check_if_exist(cur, uname)
-    print("auth---: ", res)
-
-if __name__ == '__main__':
-    # add_user("Ojasv", "Singh", "abc", "def")
-    auth_user("abc", "def")
+    print("res: ", res)
+    _uname= res[0]
+    _password= res[1]
+    print(_uname, _password, " <---------- ")
+    if(_password==password):
+        if(_uname=="User"):
+            return "User" 
+        else:
+            return "Admin"
+    else:
+        return False 

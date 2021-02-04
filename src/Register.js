@@ -5,8 +5,8 @@ const Register = () => {
     const [data, setData] = useState({
     	fname:'',
     	lname:'',
-    	email:'',
-    	pswd:'',
+    	uname:'',
+    	password:'',
     });
 
     const InputEvent = (event) => {
@@ -23,8 +23,17 @@ const Register = () => {
     };
 
     const formSubmit = () => {
+		const body=data;
+		  const response= fetch("/addUser", {
+		  method: "POST",
+		  headers: {
+			"Content-Type": "application/json"},
+		  body: JSON.stringify(body)
+		  });
 
-
+		  if(response.ok){
+				<nav>"/login"</nav>
+		  }
     };
 
 	return (
@@ -65,8 +74,8 @@ const Register = () => {
 							    type="email" 
 							    className="form-control" 
 							    id="exampleFormControlInput1"
-							    name="email"
-							    value={data.email}
+							    name="uname"
+							    value={data.uname}
 							    onChange={InputEvent}   
 							    placeholder="Email Address" 
 						    />
@@ -77,8 +86,8 @@ const Register = () => {
 							    type="password" 
 							    className="form-control" 
 							    id="exampleFormControlInput1"
-							    name="pswd"
-							    value={data.pswd}
+							    name="password"
+							    value={data.password}
 							    onChange={InputEvent}   
 							    placeholder="Password" 
 						    />
