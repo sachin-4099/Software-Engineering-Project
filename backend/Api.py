@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, Response
 import DB as db
 
+
 app = Flask(__name__)
 
 @app.route("/ping")
