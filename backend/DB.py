@@ -33,23 +33,23 @@ def close_connection(conn):
 def check_if_exist(cur, uname):
     query= "Select password from userdb where username='{}'".format(uname)
     cur.execute(query)
-    res= cur.fetchone()[0]
+    res= cur.fetchone()
     print("in user db", res)
-    if(len(res)>0):
-        return ["User", res]
+    if(res != None):
+        return ["User", res[0]]
     query= "Select username, password from admindb where username='{}'".format(uname)
     cur.execute(query)
-    res= cur.fetchall()
+    res= cur.fetchone()
     print("in admin db", res)
-    if(len(res)>0):
-        return ["Admin", res]
-    return False
+    if(res != None):
+        return ["Admin", res[0]]
+    return ["False", None]
 
 def add_user(fname, lname, uname, password):
     cur, conn= connect_to_db()
     if(cur==None):
         return "Error"
-    if(check_if_exist(cur, uname) in ["User", "Admin"]):
+    if(check_if_exist(cur, uname)[0] in ["User", "Admin"]):
         print("aleady there")
         return "Already Exist"
     query="Insert into userdb(firstname, lastname, username, password) values('{}','{}','{}','{}');".format(fname, lname, uname, password)
@@ -60,8 +60,16 @@ def add_user(fname, lname, uname, password):
 def auth_user(uname, password):
     cur, conn= connect_to_db()
     res= check_if_exist(cur, uname)
-    print("auth---: ", res)
-
-if __name__ == '__main__':
-    # add_user("Ojasv", "Singh", "abc", "def")
-    auth_user("abc", "def")
+    print("res: ", res)
+    if(res[0] == 'False'):
+        return [False, None] 
+    _uname= res[0]
+    _password= res[1]
+    print(_uname, _password, " <---------- ")
+    if(_password==password):
+        if(_uname=="User"):
+            return [True, "User"]
+        else:
+            return [True, "Admin"]
+    else:
+        return [False, None]

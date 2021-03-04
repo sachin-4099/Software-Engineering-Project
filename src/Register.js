@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import Navbar from './Navbar';
+import { useHistory } from "react-router-dom";
 
 const Register = () => {
     
     const [data, setData] = useState({
     	fname:'',
     	lname:'',
-    	email:'',
-    	pswd:'',
+    	uname:'',
+    	password:'',
     });
+
+    const history = useHistory();
 
     const InputEvent = (event) => {
       const { name, value } = event.target;
@@ -22,13 +26,41 @@ const Register = () => {
 
     };
 
-    const formSubmit = () => {
+    const formSubmit = (e) => {
+    	  
+    	  e.preventDefault();
+          
+		  const res = fetch("/addUser", {
+			  method: 'POST',
+			  headers: {
+					'Content-Type': 'application/json'
+			  },
+			  body: JSON.stringify({
+					 fname: data.fname,
+					 lname: data.lname,
+					 uname: data.uname,
+					 password: data.password
+			  })
+		  });
+  
+		  res.then(function(value) { 
+			  	
+			  	if(value.ok)
+		  		{ 
+		  		  let path = "/login"; 
+				  history.push(path);
+		  		}
+		  		else
+		  		{
+		  		  alert(`Please Fill the details Correctly`);	
+		  		}
 
-
+	      });
     };
 
 	return (
 		<>
+		    <Navbar />
 			<div className="my-5">
 				<h1 className="text-center"> Welcome to Gullak </h1>
 			</div>
@@ -65,8 +97,8 @@ const Register = () => {
 							    type="email" 
 							    className="form-control" 
 							    id="exampleFormControlInput1"
-							    name="email"
-							    value={data.email}
+							    name="uname"
+							    value={data.uname}
 							    onChange={InputEvent}   
 							    placeholder="Email Address" 
 						    />
@@ -77,8 +109,8 @@ const Register = () => {
 							    type="password" 
 							    className="form-control" 
 							    id="exampleFormControlInput1"
-							    name="pswd"
-							    value={data.pswd}
+							    name="password"
+							    value={data.password}
 							    onChange={InputEvent}   
 							    placeholder="Password" 
 						    />

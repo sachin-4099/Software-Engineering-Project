@@ -1,10 +1,12 @@
 import React from 'react';
 import Common from './Common';
+import Navbar from './Navbar';
 import vision from "../src/images/vision.jpeg";
 
 const About = () => {
 	return (
 		<>
+		    <Navbar />
 			<Common
 				name='Our Vision @ ' 
 				imgsrc={vision} 

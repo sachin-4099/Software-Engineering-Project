@@ -1,10 +1,12 @@
 import React from 'react';
 import Card from './Card';
+import Navbar from './Navbar';
 import Sdata from './Sdata';
 
 const Partners = () => {
 	return (
 		<>
+		    <Navbar />
 			<div className="my-5">
 				<h1 className="text-center"> Our Partners </h1>
 			</div>

@@ -10,12 +10,12 @@ import Register from './Register';
 import Invest from './Invest';
 import Navbar from './Navbar';
 import Blog from './Blog';
+import UserDashboard from './UserDashboard';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const App = () => {
 	return (
 		<>
-		  <Navbar />
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<Route exact path="/about" component={About} />
@@ -25,6 +25,7 @@ const App = () => {
 				<Route exact path="/blog" component={Blog} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/register" component={Register} />
+				<Route exact path="/userdashboard" component={UserDashboard} />
 				<Redirect to="/" />
 			</Switch>
 		</>

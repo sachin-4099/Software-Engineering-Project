@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
+import "./css/index.css";
+import Navbar from './Navbar';
 
 const Login = () => {
     
@@ -7,6 +10,8 @@ const Login = () => {
     	password:'',
     });
 
+    const history = useHistory();
+
     const InputEvent = (event) => {
       const { name, value } = event.target;
 
@@ -14,30 +19,47 @@ const Login = () => {
           return {
           	  ...preVal,
           	  [name]: value,
-          }
+          };
 
-      })
+      });
 
     };
 
-    const formSubmit = () => {
-          
-		  const body=data;
-		  const response= fetch("/auth", {
-		  method: "POST",
-		  headers: {
-			"Content-Type": "application/json"},
-		  body: JSON.stringify(body)
-		  });
+    const formSubmit = (e) => {
 
-		  if(response.ok){
-				console.log("worked");
-		  }
+    	  e.preventDefault();
+          
+		  const res = fetch("/auth", {
+			  method: 'POST',
+			  headers: {
+					'Content-Type': 'application/json'
+			  },
+			  body: JSON.stringify({
+					 uname: data.uname,
+					 password: data.password
+			  })
+		  });
+  
+
+		  res.then(function(value) { 
+                
+			  	if(value.ok)
+		  		{ 
+		  		  let path = "/userdashboard"; 
+				  history.push(path);
+		  		}
+		  		else
+		  		{
+		  		  alert(`Invalid Credentials`);	
+		  		}
+
+	      });
 
     };
 
 	return (
 		<>
+		    <Navbar />
 			<div className="my-5">
 				<h1 className="text-center"> Login to Gullak </h1>
 			</div>

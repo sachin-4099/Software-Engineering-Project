@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from './Navbar';
 
 const Contact = () => {
 
@@ -28,6 +29,7 @@ const Contact = () => {
 
 	return (
 		<>
+		    <Navbar />
 			<div className="my-5">
 				<h1 className="text-center"> Contact Us </h1>
 			</div>
