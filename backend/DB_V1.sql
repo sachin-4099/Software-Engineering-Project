@@ -6,8 +6,15 @@ create table userdb(
 	lastname VARCHAR(255),
 	lockingperiod INTEGER,
 	upi VARCHAR(255) NOT NULL,
-	phone_number BIGINT NOT NULL,
-	category_percentage TEXT []
+	phone_number BIGINT NOT NULL UNIQUE,
+);
+
+create table category_percentage(
+	userid INTEGER,
+	category_id INTEGER,
+	category_percentage INTEGER,
+	FOREIGN KEY(userid) REFERENCES userdb(userid),
+	FOREIGN KEY(category_id) REFERENCES category(id)
 );
 
 create table category(
@@ -28,7 +35,7 @@ create table transaction(
 	currency VARCHAR(255),
 	category_id INTEGER,
 	amount_saved INTEGER,
-	paid_to BIGINT,
+	paid_to INTEGER,
 	paid_to_type CHARACTER,
 	transaction_at DATE,
 	status_id INTEGER,
@@ -38,17 +45,17 @@ create table transaction(
 );
 
 CREATE TABLE queries (
-	userid BIGINT PRIMARY KEY,
+	userid INTEGER,
 	transaction_id BIGINT,
 	FOREIGN KEY (userid) REFERENCES userdb(userid),
 	FOREIGN KEY (transaction_id) REFERENCES transaction(id),
-	query_msg varchar(255)
+	query_msg VARCHAR(255)
 );
 
 CREATE TABLE merchants (
 	merchant_id SERIAL PRIMARY KEY,
-	merchant_name varchar(255),
-	account_id varchar(255)
+	merchant_name VARCHAR(255),
+	account_id VARCHAR(255)
 );
 
 CREATE TABLE coupons (
@@ -57,6 +64,8 @@ CREATE TABLE coupons (
 	FOREIGN KEY (merchant_id) REFERENCES merchants(merchant_id),
 	discount INT,
 	coupon_code VARCHAR(255),
+	coupon_desc VARCHAR(255),
+	coupon_type VARCHAR(255),
 	created_at DATE,
 	expired_at DATE
 );
