@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import Navbar from '../Navbar';
 
@@ -18,6 +18,28 @@ const PaymentMerchants = () => {
       {label: "Zomato", value: "zomato"},
       {label: "Uber", value: "uber"},  
     ]
+
+    const [categdata, setCategdata] = useState({}); 
+
+    async function get_category() {
+	    const res = fetch("/list/category?userid=0", {
+				  method: 'GET',
+				  headers: {
+						'Content-Type': 'application/json'
+				  },
+			  });
+
+	    res.then(response => response.json()).then(data => setCategdata(data))
+
+	    console.log(categdata[0]);
+    }
+    
+    useEffect(() => {
+
+	  get_category();
+
+	}, []);
+    
 
     const categoptions = [
       {label: "Entertainment", value: "entertainment"},
