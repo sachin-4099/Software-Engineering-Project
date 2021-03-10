@@ -73,6 +73,24 @@ const Navbar = () => {
 									        Contact Us
 								        </NavLink>
 								      </li>
+  		  						      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
+									        to="/paymentcontacts"
+								        >
+									        Payment Contacts
+								        </NavLink>
+								      </li>
+		  						      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
+									        to="/paymentmerchants"
+								        >
+									        Payment Merchants
+								        </NavLink>
+								      </li>
 								    </ul>
 								    <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
 								      <li className="nav-item">

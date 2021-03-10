@@ -61,11 +61,7 @@ def auth_user(uname, password):
     cur, conn= connect_to_db()
     res= check_if_exist(cur, uname)
     print("res: ", res)
-<<<<<<< HEAD
     if(res[0] == 'False'):
-=======
-    if(res[0]=='False'):
->>>>>>> 0a551aadf32605b478c04656c6d24d676802727f
         return [False, None] 
     _uname= res[0]
     _password= res[1]
@@ -76,8 +72,4 @@ def auth_user(uname, password):
         else:
             return [True, "Admin"]
     else:
-<<<<<<< HEAD
         return [False, None]
-=======
-        return [False, None]
->>>>>>> 0a551aadf32605b478c04656c6d24d676802727f

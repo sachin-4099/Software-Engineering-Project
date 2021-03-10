@@ -9,9 +9,6 @@ USER_KEY = config['RAZORPAY']['key_id']
 SECRET_KEY = config['RAZORPAY']['key_secret']
 client = razorpay.Client(auth=(USER_KEY, SECRET_KEY))
 
-order_amount = 50000
-order_currency = 'INR'
-order_receipt = 'order_rcptid_11'
 data = {
         "amount" : 5000,
         "currency": "INR",
