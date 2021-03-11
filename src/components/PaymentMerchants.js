@@ -50,11 +50,10 @@ const PaymentMerchants = () => {
     }
 
     const [coupondata, setCoupondata] = useState({});
-
-    const [couponoptions, setCouponoptions] = useState({
+    const [couponoptions, setCouponoptions] = useState([{
     	label:'',
     	value:'',
-    });
+    }]);
 
     let couponmap = new Map(); 
 
@@ -66,18 +65,14 @@ const PaymentMerchants = () => {
 				  },
 			  });
 
-	    res.then(response => response.json())
-	    .then(data => {
-	    	setCoupondata(data)
-	    	return coupondata;
-	    })
-	    .then(coupondata => {
-		    const couponoptions_temp = [];
-		    for(var itr = 0; itr < coupondata.length; ++itr)
-		    couponoptions_temp.push({label: coupondata[itr].coupon_desc, value: coupondata[itr].coupon_code});
+	    res.then(response => response.json()).then(data => setCoupondata(data));
+	    // .then(coupondata => {
+		   //  const couponoptions_temp = [];
+		   //  for(var itr = 0; itr < coupondata.length; ++itr)
+		   //  couponoptions_temp.push({label: coupondata[itr].coupon_desc, value: coupondata[itr].coupon_code});
 
-		    setCouponoptions(couponoptions_temp);
-	    })
+		   //  setCouponoptions(couponoptions_temp);
+	    // })
 
 
     }
@@ -117,7 +112,7 @@ const PaymentMerchants = () => {
 
     };
 
-    const InputEventMerchant = (event) => {
+    const InputEventMerchant = async (event) => {
       
       const { label, value } = event;
       
@@ -129,8 +124,17 @@ const PaymentMerchants = () => {
           };
       });
 
-      get_coupons(value);
-      console.log(couponoptions);
+	  await get_coupons(value);
+      
+      const couponoptions_temp = [];
+
+      for(var itr = 0; itr < coupondata.length; ++itr)
+	  {
+	  	couponoptions_temp.push({label: coupondata[itr].coupon_desc, value: coupondata[itr].coupon_code});
+	  	couponmap.set(coupondata[itr].coupon_code, coupondata[itr].coupon_id);
+	  } 
+
+      setCouponoptions(couponoptions_temp);
     };
 
     const InputEventCategory = (event) => {
@@ -152,15 +156,14 @@ const PaymentMerchants = () => {
       
       const { label, value } = event;
       
-      data.cname = label;
-      data.code = value;
-      
       setData((preVal) => {
           return {
           	  ...preVal,
-          	  ["cname"]: value,
+          	  ["coupon"]: label,
+          	  ["coupon_id"]: couponmap.get(value),
+          	  ["code"]: value,
           };
-      }); 
+      });
 
 
     };    
@@ -235,15 +238,15 @@ const PaymentMerchants = () => {
 						  </div>
 						  <div className="mb-3">	
 	  						  <label className="form-label"> Coupon Name </label>
-							    {/*<Select 
+							    <Select 
 							     options={couponoptions} 
 							     onChange={InputEventCoupons}
  							     value={couponoptions.filter(function(option) {
-						          return option.value === data.cname;
+						          return option.label === data.coupon;
 						         })} 
 							     placeholder="Name of Coupon"
 							     label="Single select"
-							    />*/}
+							    />
 						  </div>
   						  <div className="mb-3">	
 	  						  <label for="exampleFormControlInput1" className="form-label"> Coupon Code </label>
