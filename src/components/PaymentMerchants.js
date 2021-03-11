@@ -19,7 +19,9 @@ const PaymentMerchants = () => {
       {label: "Uber", value: "uber"},  
     ]
 
-    const [categdata, setCategdata] = useState({}); 
+    const [categdata, setCategdata] = useState({});
+
+    const categoptions = []; 
 
     async function get_category() {
 	    const res = fetch("/list/category?userid=0", {
@@ -31,7 +33,6 @@ const PaymentMerchants = () => {
 
 	    res.then(response => response.json()).then(data => setCategdata(data))
 
-	    console.log(categdata[0]);
     }
     
     useEffect(() => {
@@ -40,12 +41,9 @@ const PaymentMerchants = () => {
 
 	}, []);
     
+    for(var itr = 0; itr < categdata.length; ++itr)
+    categoptions.push({label: categdata[itr].category_name, value: categdata[itr].percentage});
 
-    const categoptions = [
-      {label: "Entertainment", value: "entertainment"},
-      {label: "Food", value: "food"},
-      {label: "Travel", value: "travel"},  
-    ]
 
     const couponoptions = [
       {label: "Pepsi 20% off", value: "PEPSI20"},
@@ -91,8 +89,8 @@ const PaymentMerchants = () => {
       
       const { label, value } = event;
       
-      data.category = value;
-      data.percentage = 15 + '%';
+      data.category = label;
+      data.percentage = value + '%';
       
       setData((preVal) => {
           return {
