@@ -67,5 +67,16 @@ def getMerchantList():
     )
     return response
 
+@app.route("/list/coupon", methods=["GET"])
+def getCouponList():
+    merchantid = request.args.get('merchantid')
+    _response = FrontendService.getCouponList(merchantid)
+    response = app.response_class(
+        response=json.dumps(_response),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
 if __name__=="__main__":
     app.run(debug=True)

@@ -8,7 +8,6 @@ import Contact from './Contact';
 import Login from './Login';
 import Register from './Register';
 import Invest from './Invest';
-import Navbar from './Navbar';
 import Blog from './Blog';
 import UserDashboard from './UserDashboard';
 import PaymentContacts from './components/PaymentContacts';
