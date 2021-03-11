@@ -12,3 +12,16 @@ def getCategory(userid):
         response.append(temp)
     print(response)
     return response
+
+
+def getMerchantList():
+    query= "select merchant_name, merchant_id from merchants;"
+    res = db.execute_query(query)
+    response = []
+    for i in res:
+        temp={}
+        temp['merchant_name'] = i[0]
+        temp['merchant_id'] = i[1]
+        response.append(temp)
+    print(response)
+    return response
