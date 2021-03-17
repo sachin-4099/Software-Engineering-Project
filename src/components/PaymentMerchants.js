@@ -50,22 +50,20 @@ const PaymentMerchants = () => {
     }
 
     const [coupondata, setCoupondata] = useState({});
-    const [couponoptions, setCouponoptions] = useState([{
-    	label:'',
-    	value:'',
-    }]);
-
-    let couponmap = new Map(); 
+    const [couponoptions, setCouponoptions] = useState([{}]);
+    const [couponmap, setCouponmap] = useState(new Map());
 
     async function get_coupons(merchantid) {
-	    const res = fetch(`/list/coupon?merchantid=${merchantid}`, {
+	    const res = await fetch(`/list/coupon?merchantid=${merchantid}`, {
 				  method: 'GET',
 				  headers: {
 						'Content-Type': 'application/json'
 				  },
 			  });
 
-	    res.then(response => response.json()).then(data => setCoupondata(data));
+	    return await res.json();
+
+	    // res.then(response => await response.json()).then(data => setCoupondata(data));
 	    // .then(coupondata => {
 		   //  const couponoptions_temp = [];
 		   //  for(var itr = 0; itr < coupondata.length; ++itr)
@@ -124,17 +122,31 @@ const PaymentMerchants = () => {
           };
       });
 
-	  await get_coupons(value);
-      
-      const couponoptions_temp = [];
+  	  const couponoptions_temp = [];
+	  const couponmap_temp = new Map();
 
-      for(var itr = 0; itr < coupondata.length; ++itr)
+  	  setCouponoptions(couponoptions_temp);
+	  setCouponmap(couponmap_temp);
+	  
+      setData((preVal) => {
+          return {
+          	  ...preVal,
+          	  ["code"]: '',
+          };
+      });
+
+	  const coupondata_temp = await get_coupons(value);
+	  setCoupondata(coupondata_temp);
+
+      for(var itr = 0; itr < coupondata_temp.length; ++itr)
 	  {
-	  	couponoptions_temp.push({label: coupondata[itr].coupon_desc, value: coupondata[itr].coupon_code});
-	  	couponmap.set(coupondata[itr].coupon_code, coupondata[itr].coupon_id);
-	  } 
+	  	couponoptions_temp.push({label: coupondata_temp[itr].coupon_desc, value: coupondata_temp[itr].coupon_code});
+	  	couponmap_temp.set(coupondata_temp[itr].coupon_code, coupondata_temp[itr].coupon_id);
+	  }
 
-      setCouponoptions(couponoptions_temp);
+	  setCouponoptions(couponoptions_temp);
+	  setCouponmap(couponmap_temp); 
+      
     };
 
     const InputEventCategory = (event) => {
@@ -155,7 +167,7 @@ const PaymentMerchants = () => {
     const InputEventCoupons = (event) => {
       
       const { label, value } = event;
-      
+
       setData((preVal) => {
           return {
           	  ...preVal,
@@ -169,13 +181,25 @@ const PaymentMerchants = () => {
     };    
     
 
-
-
     const formSubmit = (e) => {
 
 	  e.preventDefault();
-	  // rzp1.open();
-      
+
+	  const res = fetch("/confirm_payment_merchant", {
+		  method: 'POST',
+		  headers: {
+				'Content-Type': 'application/json'
+		  },
+		  body: JSON.stringify({
+		  	     userid: 0,
+				 amount: data.amount,
+				 payment_category_id: data.category_id,
+				 percentage_category: data.percentage,
+				 merchant_id: data.merchant_id,
+				 coupon_id: data.coupon_id
+		  })
+	  });
+  
 
 };
 

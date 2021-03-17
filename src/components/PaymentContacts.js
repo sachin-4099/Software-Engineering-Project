@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PhoneInput from "react-phone-number-input/input";
 import 'react-phone-number-input/style.css';
 import Select from 'react-select';
@@ -10,20 +10,42 @@ const PaymentContacts = () => {
     	phonenum:'',
     	amount:'',
     	category:'',
+    	category_id:'',
     	percentage:'',
     });
 
-    const categoptions = [
-      {label: "Entertainment", value: "entertainment"},
-      {label: "Food", value: "food"},
-      {label: "Travel", value: "travel"},  
-    ]
+    const [categdata, setCategdata] = useState({});
+
+    const categoptions = [];
+    let categmap = new Map(); 
+
+    async function get_category() {
+	    const res = fetch("/list/category?userid=0", {
+				  method: 'GET',
+				  headers: {
+						'Content-Type': 'application/json'
+				  },
+			  });
+
+	    res.then(response => response.json()).then(data => setCategdata(data));
+
+    }
+
+    useEffect(() => {
+
+	  get_category();
+
+	}, []);
+
+    for(var itr = 0; itr < categdata.length; ++itr)
+    { 
+       categoptions.push({label: categdata[itr].category_name, value: categdata[itr].percentage});
+       categmap.set(categdata[itr].category_name, categdata[itr].category_id);
+    }
 
     const InputEventAmount = (event) => {
       
       const { name, value } = event.target;
-
-      data.amount = value;
 
       setData((preVal) => {
           return {
@@ -33,40 +55,62 @@ const PaymentContacts = () => {
 
       });
 
-      console.log(data)
-
     };
 
     const InputEventCategory = (event) => {
       
       const { label, value } = event;
       
-      data.category = value;
-      data.percentage = 15 + '%';
-      
       setData((preVal) => {
           return {
           	  ...preVal,
-          	  ["category"]: value,
+          	  ["category"]: label,
+          	  ["percentage"]: value + '%',
+          	  ["category_id"]: categmap.get(label),
           };
-      }); 
-
-      console.log(data)
+      });
 
     };
 
     const InputEventPhone = (event) => {
-      
-      data.phonenum = event;
-      console.log(data)
+
+      const value = event;
+
+      setData((preVal) => {
+          return {
+          	  ...preVal,
+          	  ["phonenum"]: value,
+          };
+
+      });
 
     };
-
 
 
     const formSubmit = (e) => {
 
 	  e.preventDefault();
+
+	  if(data.phonenum.length != 13)
+	  alert(`Invalid Phone Number`);
+      else
+      { 
+		  const res = fetch("/confirm_payment_nonmerchant", {
+			  method: 'POST',
+			  headers: {
+					'Content-Type': 'application/json'
+			  },
+			  body: JSON.stringify({
+			  	     userid: 0,
+					 amount: data.amount,
+					 payment_category_id: data.category_id,
+					 percentage_category: data.percentage,
+					 phone_number: data.phonenum
+			  })
+		  });      	
+
+      }
+
 	  // rzp1.open();
       
 
@@ -112,7 +156,7 @@ const PaymentContacts = () => {
 							     options={categoptions} 
 							     onChange={InputEventCategory}
  							     value={categoptions.filter(function(option) {
-						          return option.value === data.category;
+						          return option.label === data.category;
 						         })} 
 							     placeholder="Category"
 							     label="Single select"
