@@ -12,6 +12,7 @@ import Blog from './Blog';
 import UserDashboard from './UserDashboard';
 import PaymentContacts from './components/PaymentContacts';
 import PaymentMerchants from './components/PaymentMerchants';
+import FinalPaymentContact from './components/FinalPaymentContact';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
 				<Route exact path="/userdashboard" component={UserDashboard} />
 				<Route exact path="/paymentcontacts" component={PaymentContacts} />
 				<Route exact path="/paymentmerchants" component={PaymentMerchants} />
+				<Route exact path="/finalpaymentcontact" component={FinalPaymentContact} />
 				<Redirect to="/" />
 			</Switch>
 		</>

@@ -181,25 +181,44 @@ const PaymentMerchants = () => {
     };    
     
 
-    const formSubmit = (e) => {
+    const formSubmit = async (e) => {
 
 	  e.preventDefault();
 
-	  const res = fetch("/confirm_payment_merchant", {
-		  method: 'POST',
-		  headers: {
-				'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify({
-		  	     userid: 0,
-				 amount: data.amount,
-				 payment_category_id: data.category_id,
-				 percentage_category: data.percentage,
-				 merchant_id: data.merchant_id,
-				 coupon_id: data.coupon_id
-		  })
-	  });
-  
+	  const valid_coupon = await fetch(`/validate/coupon?coupon_id=${data.coupon_id}`, {
+				  method: 'GET',
+				  headers: {
+						'Content-Type': 'application/json'
+				  },
+			  });
+
+	  valid_coupon.then(function(value) { 
+                
+			  	if(value.ok)
+		  		{ 
+					  const res = fetch("/confirm/payment_merchant", {
+						  method: 'POST',
+						  headers: {
+								'Content-Type': 'application/json'
+						  },
+						  body: JSON.stringify({
+						  	     userid: 0,
+								 amount: data.amount,
+								 payment_category_id: data.category_id,
+								 percentage_category: data.percentage,
+								 merchant_id: data.merchant_id,
+								 coupon_id: data.coupon_id
+						  })
+					  });
+
+
+		  		}
+		  		else
+		  		{
+		  		  alert(`Invalid Coupon`);	
+		  		}
+
+	      });
 
 };
 

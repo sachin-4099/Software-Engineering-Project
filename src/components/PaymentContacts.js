@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PhoneInput from "react-phone-number-input/input";
 import 'react-phone-number-input/style.css';
 import Select from 'react-select';
+import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar';
 
 const PaymentContacts = () => {
@@ -13,6 +14,8 @@ const PaymentContacts = () => {
     	category_id:'',
     	percentage:'',
     });
+
+    const history = useHistory();
 
     const [categdata, setCategdata] = useState({});
 
@@ -87,29 +90,58 @@ const PaymentContacts = () => {
     };
 
 
-    const formSubmit = (e) => {
+    const formSubmit = async (e) => {
 
 	  e.preventDefault();
 
-	  if(data.phonenum.length != 13)
+      this.props.history.push({
+		  pathname: '/FinalPaymentContact',
+		  state: [{name: 'Ojasv Singh', 
+		           upi_id: 'asasa',
+		           category: data.category,
+		           saving: data.percentage + '%',
+		           amount: '1400' }]
+	})
+
+	  /*if(data.phonenum.length != 13)
 	  alert(`Invalid Phone Number`);
       else
       { 
-		  const res = fetch("/confirm_payment_nonmerchant", {
-			  method: 'POST',
-			  headers: {
-					'Content-Type': 'application/json'
-			  },
-			  body: JSON.stringify({
-			  	     userid: 0,
-					 amount: data.amount,
-					 payment_category_id: data.category_id,
-					 percentage_category: data.percentage,
-					 phone_number: data.phonenum
-			  })
-		  });      	
+		  const valid_phone = await fetch(`/validate/phone_number?phone_no=${data.phonenum}`, {
+					  method: 'GET',
+					  headers: {
+							'Content-Type': 'application/json'
+					  },
+				  });
 
-      }
+		  valid_phone.then(function(value) { 
+	                
+				  	if(value.ok)
+			  		{ 
+						  const res = fetch("/confirm/payment_nonmerchant", {
+							  method: 'POST',
+							  headers: {
+									'Content-Type': 'application/json'
+							  },
+							  body: JSON.stringify({
+							  	     userid: 0,
+									 amount: data.amount,
+									 payment_category_id: data.category_id,
+									 percentage_category: data.percentage,
+									 phone_number: data.phonenum
+							  })
+						  });
+
+						  
+			  		}
+			  		else
+			  		{
+			  		  alert(`User Does not Exist`);	
+			  		}
+
+		      });  	
+
+      }*/
 
 	  // rzp1.open();
       
