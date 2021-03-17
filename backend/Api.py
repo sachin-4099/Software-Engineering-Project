@@ -1,6 +1,8 @@
 from flask import Flask,request, jsonify, Response, json
 import DB as db
 import FrontendService as FrontendService
+import PaymentService as PaymentService
+import UserServices as UserServices
 
 app = Flask(__name__)
 
@@ -31,19 +33,40 @@ def authUser():
     else:
         return Response(jsonify("{'success': 'True'}"), status=200, mimetype='application/json')
 
-@app.route("/confirm_payement_merchant", methods=["POST"])
-def confirmPayment():
+@app.route("/confirm/payment_merchant", methods=["POST"])
+def confirmPaymentMerchant():
     req = request.json
     print(req)
     username= req.get("username")
-    amount = req.get("amount")
+    amount = int(req.get("amount"))
     currency = req.get("currency")
-    payment_category_id= req.get("payment_category_id")
+    payment_category_id= int(req.get("payment_category_id"))
     percentage_category = req.get("percentage_category")
-    coupon_id = req.get("coupon_id")
-    merchant_id = req.get("merchant_id")
-    PaymentService.checkCouponCodeValidity(coupon_code)
-    PaymentService.generateOrderId(username, amount, currency, payment_category, percentage_category,  merchant_id)
+    coupon_id = int(req.get("coupon_id"))
+    merchant_id = int(req.get("merchant_id"))
+    response = PaymentService.confirmPayment(username, amount, currency, payment_category_id, percentage_category, coupon_id,  merchant_id)
+    return app.response_class(
+        response=response,
+        status=200,
+        mimetype='application/json'
+    )
+
+# @app.route("/confirm/payment_nonmerchant", methods=["POST"])
+# def confirmPaymentNonMerchant():
+#     req = request.json
+#     print(req)
+#     username= req.get("username")
+#     amount = req.get("amount")
+#     currency = req.get("currency")
+#     payment_category_id= req.get("payment_category_id")
+#     percentage_category = req.get("percentage_category")
+#     coupon_id = req.get("coupon_id")
+#     merchant_id = req.get("merchant_id")
+#     PaymentService.checkCouponCodeValidity(coupon_code)
+#     PaymentService.generateOrderId(username, amount, currency, payment_category, percentage_category,  merchant_id)
+#     return
+# # TODO: Coupon only in merchant
+
 
 
 @app.route("/list/category", methods=["GET"])
@@ -77,6 +100,33 @@ def getCouponList():
         mimetype='application/json'
     )
     return response
+
+@app.route("/validate/coupon", methods=["GET"])
+def validate_coupon():
+    coupon_id = request.args.get("coupon_id")
+    discount = PaymentService.validate_coupon(coupon_id)
+    status = 200
+    if(not discount.get("valid")):
+        status=400
+    response = app.response_class(
+        response=discount,
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/validate/phone_number", methods=["GET"])
+def validate_user_from_phoneNumber():
+    merchantid = request.args.get('phone_no')
+    user_details = UserServices.validate_user_from_phoneNumber(merchantid)
+    status = 200
+    if(not user_details['valid']):
+        status = 400
+    return app.response_class(
+        response=json.dumps(user_details),
+        status=status,
+        mimetype='application/json'
+    )
 
 if __name__=="__main__":
     app.run(debug=True)

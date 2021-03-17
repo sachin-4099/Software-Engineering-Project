@@ -1,23 +1,60 @@
 import razorpay
 import configparser
-import pprint
+from pprint import pprint
 import json
+import DB as db
+from datetime import datetime
 
-config= configparser.ConfigParser()
-config.read('creds.ini')
-USER_KEY = config['RAZORPAY']['key_id']
-SECRET_KEY = config['RAZORPAY']['key_secret']
-client = razorpay.Client(auth=(USER_KEY, SECRET_KEY))
+# username= req.get("username")
+# amount = req.get("amount")
+# currency = req.get("currency")
+# payment_category_id= req.get("payment_category_id")
+# percentage_category = req.get("percentage_category")
+# coupon_id = req.get("coupon_id")
+# merchant_id = req.get("merchant_id")
 
-order_amount = 50000
-order_currency = 'INR'
-order_receipt = 'order_rcptid_11'
-data = {
-        "amount" : 5000,
-        "currency": "INR",
-        "receipt": "order_rcptid_11"
+# class PaymentService:
+
+
+
+def validate_coupon(coupon_id):
+    query = "select discount from coupons where couponid={} and expired_at > now();".format(coupon_id)
+    res = db.execute_query(query)
+    if(len(res)>0):
+        res = res[0]
+        details = {"valid": True, "discount": res[0]}
+    else:
+        details = {"valid": False}
+    return details
+
+
+def confirmPayment(username, actual_amount, order_currency, payment_category_id, percentage_category, coupon_id, merchant_id):
+    config = configparser.ConfigParser()
+    config.read('creds.ini')
+    USER_KEY = config['RAZORPAY']['key_id']
+    SECRET_KEY = config['RAZORPAY']['key_secret']
+    client = razorpay.Client(auth=(USER_KEY, SECRET_KEY))
+    discount = int(validate_coupon(coupon_id).get("discount"))
+    final_amt = actual_amount + (actual_amount*discount)/100;
+    order_receipt = username+"__"+str(merchant_id)+"__"+datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
+    notes = {
+        "payment_category_id": payment_category_id,
+        "percentage_category": percentage_category,
+        "coupon_id": coupon_id,
+        "merchant_id": merchant_id,
+        "username": username,
+        "actual_amount": actual_amount
     }
-resp = client.order.create(data= data)
-print(type(resp))
-tt= json.dumps(resp, indent=4)
-print(tt)
+    data = {
+            "amount" : final_amt*100,
+            "currency": order_currency,
+            "receipt": order_receipt,
+            "notes": notes
+        }
+    resp = client.order.create(data= data)
+    response = {
+        "order_id": resp.get("id"),
+        "amount": resp.get("amount_due"),
+        ""
+    }
+    return response

@@ -28,7 +28,7 @@ def getMerchantList():
 
 
 def getCouponList(merchantid):
-    query= "select couponid, coupon_desc, coupon_code from coupons where merchant_id={};".format(merchantid)
+    query= "select couponid, coupon_desc, coupon_code from coupons where merchant_id={} and expired_at > now();".format(merchantid)
     res = db.execute_query(query)
     response = []
     for i in res:
