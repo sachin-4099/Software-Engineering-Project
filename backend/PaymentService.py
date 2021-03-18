@@ -55,6 +55,5 @@ def confirmPayment(username, actual_amount, order_currency, payment_category_id,
     response = {
         "order_id": resp.get("id"),
         "amount": resp.get("amount_due"),
-        ""
     }
     return response

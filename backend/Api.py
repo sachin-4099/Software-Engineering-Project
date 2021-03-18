@@ -45,8 +45,9 @@ def confirmPaymentMerchant():
     coupon_id = int(req.get("coupon_id"))
     merchant_id = int(req.get("merchant_id"))
     response = PaymentService.confirmPayment(username, amount, currency, payment_category_id, percentage_category, coupon_id,  merchant_id)
+    print(type(response))
     return app.response_class(
-        response=response,
+        response=json.dumps(response),
         status=200,
         mimetype='application/json'
     )
@@ -109,7 +110,7 @@ def validate_coupon():
     if(not discount.get("valid")):
         status=400
     response = app.response_class(
-        response=discount,
+        response=json.dumps(discount),
         status=200,
         mimetype='application/json'
     )
