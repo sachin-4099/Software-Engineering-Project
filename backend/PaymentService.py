@@ -28,7 +28,7 @@ def validate_coupon(coupon_id):
     return details
 
 
-def confirmPayment(username, actual_amount, order_currency, payment_category_id, percentage_category, coupon_id, merchant_id):
+def confirmPayment(userid, actual_amount, order_currency, payment_category_id, percentage_category, coupon_id, merchant_id):
     config = configparser.ConfigParser()
     config.read('creds.ini')
     USER_KEY = config['RAZORPAY']['key_id']
@@ -36,7 +36,7 @@ def confirmPayment(username, actual_amount, order_currency, payment_category_id,
     client = razorpay.Client(auth=(USER_KEY, SECRET_KEY))
     discount = int(validate_coupon(coupon_id).get("discount"))
     final_amt = actual_amount + (actual_amount*discount)/100;
-    order_receipt = username+"__"+str(merchant_id)+"__"+datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
+    order_receipt = userid+"__"+str(merchant_id)+"__"+datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
     notes = {
         "payment_category_id": payment_category_id,
         "percentage_category": percentage_category,
