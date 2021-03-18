@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from "react-router-dom";
 import Navbar from '../Navbar';
 
-const FinalPaymentContact = () => {
+const FinalPaymentMerchant = () => {
 
 
 
@@ -27,8 +27,7 @@ const FinalPaymentContact = () => {
 					<div className="col-md-6 col-10 mx-auto">
 						<form onSubmit={formSubmit}>						
 						  <div className="mb-3">
-						      <h4> Name: {state[0].name} </h4><br></br>
-						      <h4> UPI ID: {state[0].upi_id} </h4><br></br>
+						      <h4> Merchant Name: {state[0].mname} </h4><br></br>
 						      <h4> Category: {state[0].category} </h4><br></br>
 						      <h4> Savings: {state[0].saving} </h4><br></br>
                               <h4> Final Amount: {state[0].amount} </h4><br></br>
@@ -44,4 +43,4 @@ const FinalPaymentContact = () => {
 	);
 };
 
-export default FinalPaymentContact;
+export default FinalPaymentMerchant;

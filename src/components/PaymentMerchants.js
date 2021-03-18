@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar';
 
 const PaymentMerchants = () => {
@@ -15,6 +16,8 @@ const PaymentMerchants = () => {
     	coupon_id:'',
     	code:'',
     });
+
+    const history = useHistory();
 
     const [categdata, setCategdata] = useState({});
 
@@ -181,11 +184,11 @@ const PaymentMerchants = () => {
     };    
     
 
-    const formSubmit = async (e) => {
+    const formSubmit = (e) => {
 
 	  e.preventDefault();
 
-	  const valid_coupon = await fetch(`/validate/coupon?coupon_id=${data.coupon_id}`, {
+	  const valid_coupon = fetch(`/validate/coupon?coupon_id=${data.coupon_id}`, {
 				  method: 'GET',
 				  headers: {
 						'Content-Type': 'application/json'
@@ -210,6 +213,28 @@ const PaymentMerchants = () => {
 								 coupon_id: data.coupon_id
 						  })
 					  });
+
+		  		     res.then(function(value) { 
+                
+						  	 if(value.ok)
+					  		 { 
+							      history.push({
+									  pathname: '/FinalPaymentMerchant',
+									  state: [{name: data.merchant,
+									           category: data.category,
+									           saving: data.percentage,
+									           amount: '1400' }]
+								})
+
+							    console.log(value);
+					  		 }
+					  		 else
+					  		 {
+		  		   		  		  let path = "/error"; 
+								  history.push(path);
+					  		 }
+
+				      });
 
 
 		  		}

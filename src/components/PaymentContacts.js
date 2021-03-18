@@ -90,24 +90,15 @@ const PaymentContacts = () => {
     };
 
 
-    const formSubmit = async (e) => {
+    const formSubmit = (e) => {
 
 	  e.preventDefault();
 
-      this.props.history.push({
-		  pathname: '/FinalPaymentContact',
-		  state: [{name: 'Ojasv Singh', 
-		           upi_id: 'asasa',
-		           category: data.category,
-		           saving: data.percentage + '%',
-		           amount: '1400' }]
-	})
-
-	  /*if(data.phonenum.length != 13)
+	  if(data.phonenum.length != 13)
 	  alert(`Invalid Phone Number`);
       else
       { 
-		  const valid_phone = await fetch(`/validate/phone_number?phone_no=${data.phonenum}`, {
+		  const valid_phone = fetch(`/validate/phone_number?phone_no=${data.phonenum}`, {
 					  method: 'GET',
 					  headers: {
 							'Content-Type': 'application/json'
@@ -132,6 +123,27 @@ const PaymentContacts = () => {
 							  })
 						  });
 
+			  		     res.then(function(value) { 
+                
+						  	 if(value.ok)
+					  		 { 
+							      history.push({
+									  pathname: '/FinalPaymentContact',
+									  state: [{name: 'Ojasv Singh', 
+									           upi_id: 'asasa',
+									           category: data.category,
+									           saving: data.percentage,
+									           amount: '1400' }]
+								})
+					  		 }
+					  		 else
+					  		 {
+		  		   		  		  let path = "/error"; 
+								  history.push(path);
+					  		 }
+
+				      });
+
 						  
 			  		}
 			  		else
@@ -141,7 +153,7 @@ const PaymentContacts = () => {
 
 		      });  	
 
-      }*/
+      }
 
 	  // rzp1.open();
       

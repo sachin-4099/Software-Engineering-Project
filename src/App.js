@@ -13,6 +13,8 @@ import UserDashboard from './UserDashboard';
 import PaymentContacts from './components/PaymentContacts';
 import PaymentMerchants from './components/PaymentMerchants';
 import FinalPaymentContact from './components/FinalPaymentContact';
+import FinalPaymentMerchant from './components/FinalPaymentMerchant';
+import ErrorPage from './components/ErrorPage';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const App = () => {
@@ -31,6 +33,8 @@ const App = () => {
 				<Route exact path="/paymentcontacts" component={PaymentContacts} />
 				<Route exact path="/paymentmerchants" component={PaymentMerchants} />
 				<Route exact path="/finalpaymentcontact" component={FinalPaymentContact} />
+				<Route exact path="/finalpaymentmerchant" component={FinalPaymentMerchant} />
+				<Route exact path="/error" component={ErrorPage} />
 				<Redirect to="/" />
 			</Switch>
 		</>
