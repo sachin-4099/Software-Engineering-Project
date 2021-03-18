@@ -37,14 +37,14 @@ def authUser():
 def confirmPaymentMerchant():
     req = request.json
     print(req)
-    username= req.get("username")
+    userid= req.get("userid")
     amount = int(req.get("amount"))
     currency = req.get("currency")
     payment_category_id= int(req.get("payment_category_id"))
     percentage_category = req.get("percentage_category")
     coupon_id = int(req.get("coupon_id"))
     merchant_id = int(req.get("merchant_id"))
-    response = PaymentService.confirmPayment(username, amount, currency, payment_category_id, percentage_category, coupon_id,  merchant_id)
+    response = PaymentService.confirmPayment(userid, amount, currency, payment_category_id, percentage_category, coupon_id,  merchant_id)
     print(type(response))
     return app.response_class(
         response=json.dumps(response),
