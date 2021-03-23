@@ -2,7 +2,7 @@ import React from 'react';
 import web from "../src/images/piggybank.jpg";
 import { NavLink } from 'react-router-dom';
 
-const Navbar = () => {
+const LoginNavbar = () => {
 	return (
 		<>
 		    <div className="container-fluid nav_bg">
@@ -73,6 +73,24 @@ const Navbar = () => {
 									        Contact Us
 								        </NavLink>
 								      </li>
+  		  						      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
+									        to="/paymentcontacts"
+								        >
+									        Payment Contacts
+								        </NavLink>
+								      </li>
+		  						      <li className="nav-item">
+								        <NavLink 
+									        activeClassName="menu_active" 
+									        className="nav-link" 
+									        to="/paymentmerchants"
+								        >
+									        Payment Merchants
+								        </NavLink>
+								      </li>
 								    </ul>
 								    <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
 								      <li className="nav-item">
@@ -80,18 +98,9 @@ const Navbar = () => {
 									        activeClassName="menu_active" 
 									        exact 
 									        className="nav-link" 
-									        to="/login"
+									        to="/userdashboard"
 								        >
-									        Login 
-								        </NavLink>
-								      </li>
-  								      <li className="nav-item">
-								        <NavLink 
-									        activeClassName="menu_active" 
-									        className="nav-link" 
-									        to="/register"
-								        >
-									        Get Started
+									        User Dashboard 
 								        </NavLink>
 								      </li>
 							        </ul>
@@ -105,4 +114,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default LoginNavbar;

@@ -2,8 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar';
+import LoginNavbar from '../LoginNavbar';
 
 const PaymentMerchants = () => {
+
+	var navChoice;
+
+	if (global.config.i18n.state.login === 1) { 
+		navChoice = <LoginNavbar />;
+	}
+	else {
+		navChoice = <Navbar />;
+	}	
 
     const [data, setData] = useState({
     	merchant:'',
@@ -207,6 +217,7 @@ const PaymentMerchants = () => {
 						  body: JSON.stringify({
 						  	     userid: 0,
 								 amount: data.amount,
+								 currency: "INR",
 								 payment_category_id: data.category_id,
 								 percentage_category: data.percentage,
 								 merchant_id: data.merchant_id,
@@ -218,21 +229,29 @@ const PaymentMerchants = () => {
                 
 						  	 if(value.ok)
 					  		 { 
-							      history.push({
-									  pathname: '/FinalPaymentMerchant',
-									  state: [{name: data.merchant,
-									           category: data.category,
-									           saving: data.percentage,
-									           amount: '1400' }]
-								})
-
-							    console.log(value);
+							    return value.json();  
 					  		 }
 					  		 else
 					  		 {
 		  		   		  		  let path = "/error"; 
 								  history.push(path);
 					  		 }
+
+				      }).then(res_data => {
+
+
+						        history.push({
+									  pathname: '/FinalPaymentMerchant',
+									  state: [{name: data.merchant,
+									           category: data.category,
+									           saving: data.percentage,
+									           amount: res_data.amount/100,
+									           order_id: res_data.order_id,
+									           username: res_data.fullname,
+									           email: res_data.email,
+									           contact: res_data.contact
+									         }]
+								})
 
 				      });
 
@@ -249,7 +268,7 @@ const PaymentMerchants = () => {
 
 	return (
 		<>
-		    <Navbar />
+		    {navChoice}
 			<div className="my-5">
 				<h1 className="text-center"> Payment to Merchants </h1>
 			</div>

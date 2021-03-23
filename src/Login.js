@@ -45,7 +45,8 @@ const Login = () => {
                 
 			  	if(value.ok)
 		  		{ 
-		  		  let path = "/userdashboard"; 
+		  		  global.config.i18n.state.login = 1; 
+  		  		  let path = "/";
 				  history.push(path);
 		  		}
 		  		else

@@ -11,7 +11,7 @@
   position: relative;
 }
 
-  .err {
+.err {
     color: #ffffff;
     font-family: 'Nunito Sans', sans-serif;
     font-size: 11rem;
@@ -29,7 +29,7 @@
     top: 8%;
 }
 
- .err2 {
+.err2 {
     color: #ffffff;
     font-family: 'Nunito Sans', sans-serif;
     font-size: 11rem;
@@ -51,8 +51,4 @@
 a {
   text-decoration: none;
   color: white;
-}
-
-a:hover {
-  text-decoration: underline;
 }

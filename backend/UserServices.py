@@ -5,7 +5,7 @@ def validate_user_from_phoneNumber(phone_no):
     res = db.execute_query(query)
     if(len(res)>0):
         res = res[0]
-        details = {"valid": True, "firstname": res[0], "lastname": res[1], "upi": res[2]}
+        details = {"valid": True, "firstname": res[0][0], "lastname": res[0][1], "upi": res[0][2]}
     else:
         details = {"valid": False}
     return details

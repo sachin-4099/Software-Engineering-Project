@@ -37,14 +37,14 @@ def authUser():
 def confirmPaymentMerchant():
     req = request.json
     print(req)
-    userid= req.get("userid")
+    userid= str(req.get("userid"))
     amount = int(req.get("amount"))
     currency = req.get("currency")
     payment_category_id= int(req.get("payment_category_id"))
     percentage_category = req.get("percentage_category")
     coupon_id = int(req.get("coupon_id"))
     merchant_id = int(req.get("merchant_id"))
-    response = PaymentService.confirmPayment(userid, amount, currency, payment_category_id, percentage_category, coupon_id,  merchant_id)
+    response = PaymentService.confirmPaymentMerchant(userid, amount, currency, payment_category_id, percentage_category, coupon_id,  merchant_id)
     print(type(response))
     return app.response_class(
         response=json.dumps(response),
@@ -52,23 +52,24 @@ def confirmPaymentMerchant():
         mimetype='application/json'
     )
 
-# @app.route("/confirm/payment_nonmerchant", methods=["POST"])
-# def confirmPaymentNonMerchant():
-#     req = request.json
-#     print(req)
-#     username= req.get("username")
-#     amount = req.get("amount")
-#     currency = req.get("currency")
-#     payment_category_id= req.get("payment_category_id")
-#     percentage_category = req.get("percentage_category")
-#     coupon_id = req.get("coupon_id")
-#     merchant_id = req.get("merchant_id")
-#     PaymentService.checkCouponCodeValidity(coupon_code)
-#     PaymentService.generateOrderId(username, amount, currency, payment_category, percentage_category,  merchant_id)
-#     return
-# # TODO: Coupon only in merchant
-
-
+@app.route("/confirm/payment_nonmerchant", methods=["POST"])
+def confirmPaymentNonMerchant():
+    req = request.json
+    print(req)
+    userid= str(req.get("userid"))
+    amount = int(req.get("amount"))
+    currency = req.get("currency")
+    payment_category_id= req.get("payment_category_id")
+    percentage_category = req.get("percentage_category")
+    payee_phone_number = req.get("phone_number")
+    payee_phone_number = payee_phone_number[1:]
+    response = PaymentService.confirmPaymentNonMerchant(userid, amount, currency, payment_category_id, percentage_category, payee_phone_number)
+    print(response)
+    return app.response_class(
+        response=json.dumps(response),
+        status=200,
+        mimetype='application/json'
+    )
 
 @app.route("/list/category", methods=["GET"])
 def getCategory():
@@ -118,8 +119,9 @@ def validate_coupon():
 
 @app.route("/validate/phone_number", methods=["GET"])
 def validate_user_from_phoneNumber():
-    merchantid = request.args.get('phone_no')
-    user_details = UserServices.validate_user_from_phoneNumber(merchantid)
+    phone_no = request.args.get('phone_no')
+    phone_no = phone_no[1:]
+    user_details = UserServices.validate_user_from_phoneNumber(phone_no)
     status = 200
     if(not user_details['valid']):
         status = 400

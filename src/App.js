@@ -14,6 +14,7 @@ import PaymentContacts from './components/PaymentContacts';
 import PaymentMerchants from './components/PaymentMerchants';
 import FinalPaymentContact from './components/FinalPaymentContact';
 import FinalPaymentMerchant from './components/FinalPaymentMerchant';
+import SuccessPayment from './components/SuccessPayment';
 import ErrorPage from './components/ErrorPage';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ const App = () => {
 				<Route exact path="/paymentmerchants" component={PaymentMerchants} />
 				<Route exact path="/finalpaymentcontact" component={FinalPaymentContact} />
 				<Route exact path="/finalpaymentmerchant" component={FinalPaymentMerchant} />
+				<Route exact path="/successpayment" component={SuccessPayment} />
 				<Route exact path="/error" component={ErrorPage} />
 				<Redirect to="/" />
 			</Switch>
