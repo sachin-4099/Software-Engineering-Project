@@ -27,17 +27,17 @@ def authUser():
     print(req)
     uname=req.get('uname')
     password=req.get('password')
-    val = db.auth_user(uname, password)
-    if(val[0]==False):
-        return Response("{'success': False}", status=401, mimetype='application/json')
+    res = db.auth_user(uname, password)
+    if(res.get("status")):
+        return Response(json.dumps(res), status=200, mimetype='application/json')
     else:
-        return Response(jsonify("{'success': 'True'}"), status=200, mimetype='application/json')
+        return Response(json.dumps(res), status=401, mimetype='application/json')
 
 @app.route("/confirm/payment_merchant", methods=["POST"])
 def confirmPaymentMerchant():
     req = request.json
     print(req)
-    userid= req.get("userid")
+    userid= str(req.get("userid"))
     amount = int(req.get("amount"))
     currency = req.get("currency")
     payment_category_id= int(req.get("payment_category_id"))

@@ -36,13 +36,14 @@ def confirmPayment(userid, actual_amount, order_currency, payment_category_id, p
     client = razorpay.Client(auth=(USER_KEY, SECRET_KEY))
     discount = int(validate_coupon(coupon_id).get("discount"))
     final_amt = actual_amount + (actual_amount*discount)/100;
+    print(userid, merchant_id)
     order_receipt = userid+"__"+str(merchant_id)+"__"+datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
     notes = {
         "payment_category_id": payment_category_id,
         "percentage_category": percentage_category,
         "coupon_id": coupon_id,
         "merchant_id": merchant_id,
-        "username": username,
+        "userid": userid,
         "actual_amount": actual_amount
     }
     data = {
