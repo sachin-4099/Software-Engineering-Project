@@ -57,22 +57,36 @@ def add_user(fname, lname, uname, password):
     close_connection(conn)
 
 
+def get_user_id_from_username(uname):
+    query = "select userid from userdb where username='{}';".format(uname)
+    return execute_query(query)[0][0]
+
+def get_admin_id_from_username(uname):
+    query = "select userid from admindb where username='{}';".format(uname)
+    return execute_query(query)[0][0]
+
 def auth_user(uname, password):
     cur, conn= connect_to_db()
     res= check_if_exist(cur, uname)
-    print("res: ", res)
+    op = {}
     if(res[0]=='False'):
-        return [False, None]
+        op["status"]=False
+        return op
     _uname= res[0]
     _password= res[1]
-    print(_uname, _password, " <---------- ")
     if(_password==password):
+        op["status"]=True
         if(_uname=="User"):
-            return [True, "User"]
+            _userid = get_user_id_from_username(uname)
+            op["user_id"]=_userid
+            op["used_by"]="User"
         else:
-            return [True, "Admin"]
+            _userid = get_admin_id_from_username(uname)
+            op["user_id"]=_userid
+            op["used_by"]="Admin"
     else:
-        return [False, None]
+        op["status"]=False
+    return op
 
 def execute_query(query):
     cur, conn= connect_to_db()

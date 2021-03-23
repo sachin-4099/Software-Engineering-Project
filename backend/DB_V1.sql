@@ -9,6 +9,14 @@ create table userdb(
 	phone_number BIGINT NOT NULL UNIQUE,
 );
 
+create table admindb(
+	userid SERIAL PRIMARY KEY,
+	firstname VARCHAR(255) NOT NULL,
+	lastname VARCHAR(255),
+	username VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+);
+
 create table category_percentage(
 	userid INTEGER,
 	category_id INTEGER,

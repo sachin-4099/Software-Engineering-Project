@@ -43,6 +43,7 @@ def confirmPaymentMerchant(userid, actual_amount, order_currency, payment_catego
     res = db.execute_query(query)
     fname, lname, email, phone_num = res[0][0], res[0][1], res[0][2], res[0][3]
     fullname = fname + ' ' + lname
+    final_amt = actual_amount + (actual_amount*discount)/100;
     order_receipt = userid+"__"+str(merchant_id)+"__"+datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
     notes = {
         "payment_category_id": payment_category_id,
