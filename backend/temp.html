@@ -1,0 +1,55 @@
+<html>
+	<button id="rzp-button1">Pay</button>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script>
+		  function temp() {
+        console.log("sasas");
+  		  fetch("http://127.0.0.1:5000/confirm/payment_merchant", {
+  		  method: 'POST',
+  		  headers: {
+  				'Content-Type': 'application/json'
+  		  },
+  		  body: JSON.stringify({
+  		  	     userid: 0,
+  				 amount: 1200,
+  				 payment_category_id: "Food",
+  				 percentage_category: "20",
+  				 merchant_id: 1,
+  				 coupon_id: 1
+  		  }),
+  		  redirect: 'follow'
+  	  }).then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('-------------error', error));
+      }  
+    </script>
+
+    <script>
+	var options = {    
+	"key": 'rzp_test_5kt38WvQ1V05jk', // Enter the Key ID generated from the Dashboard    
+	"amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise    
+	"currency": "INR",    
+	"name": "Acme Corp",    
+	"description": "Test Transaction",    
+	"image": "https://example.com/your_logo",    
+	"order_id": "order_GiX6roKJdSEW5a", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1    
+	"callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",    
+	"prefill": {        
+	"name": "Gaurav Kumar",       
+	"email": "gaurav.kumar@example.com",        
+	"contact": "9999999999"   
+	},    
+	"notes": {        
+	"address": "Razorpay Corporate Office"    
+	},    
+	"theme": {        
+	"color": "#3399cc"    
+	}
+	};
+	var rzp1 = new Razorpay(options);
+	document.getElementById('rzp-button1').onclick = function(e)
+	{   temp(); 
+    rzp1.open();
+        e.preventDefault();}
+	</script>
+</html>

@@ -36,7 +36,6 @@ def authUser():
 @app.route("/confirm/payment_merchant", methods=["POST"])
 def confirmPaymentMerchant():
     req = request.json
-    print(req)
     userid= str(req.get("userid"))
     amount = int(req.get("amount"))
     currency = req.get("currency")
@@ -51,24 +50,6 @@ def confirmPaymentMerchant():
         status=200,
         mimetype='application/json'
     )
-
-# @app.route("/confirm/payment_nonmerchant", methods=["POST"])
-# def confirmPaymentNonMerchant():
-#     req = request.json
-#     print(req)
-#     username= req.get("username")
-#     amount = req.get("amount")
-#     currency = req.get("currency")
-#     payment_category_id= req.get("payment_category_id")
-#     percentage_category = req.get("percentage_category")
-#     coupon_id = req.get("coupon_id")
-#     merchant_id = req.get("merchant_id")
-#     PaymentService.checkCouponCodeValidity(coupon_code)
-#     PaymentService.generateOrderId(username, amount, currency, payment_category, percentage_category,  merchant_id)
-#     return
-# # TODO: Coupon only in merchant
-
-
 
 @app.route("/list/category", methods=["GET"])
 def getCategory():
@@ -111,6 +92,44 @@ def validate_coupon():
         status=400
     response = app.response_class(
         response=json.dumps(discount),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/update/locking_period", methods=["PUT"])
+def update_locking_period():
+    req = request.json
+    userid= req.get("user_id")
+    locking_period = req.get("locking_period")
+    result = UserServices.update_locking_period()
+    response = app.response_class(
+        response=json.dumps(discount),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/list/locking_period", methods=["GET"])
+def get_locking_period():
+    userid = request.args.get('merchantid')
+    result = UserServices.get_locking_period()
+    response = app.response_class(
+        response=json.dumps(response),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/update/saving_percentage", methods=["PUT"])
+def update_saving_percentage():
+    req = request.json
+    userid= req.get("user_id")
+    saving_percentage = req.get("saving_percentage")
+    category_id = req.get("category_id")
+    result = UserServices.update_saving_percentage(userid, saving_percentage, category_id)
+    response = app.response_class(
+        response=json.dumps(result),
         status=200,
         mimetype='application/json'
     )
