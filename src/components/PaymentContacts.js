@@ -2,9 +2,22 @@ import React, { useState, useEffect } from 'react';
 import PhoneInput from "react-phone-number-input/input";
 import 'react-phone-number-input/style.css';
 import Select from 'react-select';
+import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar';
+import LoginNavbar from '../LoginNavbar';
 
 const PaymentContacts = () => {
+
+	var navChoice;
+
+	if (global.config.i18n.state.login === 1) { 
+		navChoice = <LoginNavbar />;
+	}
+	else {
+		navChoice = <Navbar />;
+	}	
+    
+    const user_id = global.config.i18n.state.id;
 
     const [data, setData] = useState({
     	phonenum:'',
@@ -14,13 +27,15 @@ const PaymentContacts = () => {
     	percentage:'',
     });
 
+    const history = useHistory();
+
     const [categdata, setCategdata] = useState({});
 
     const categoptions = [];
     let categmap = new Map(); 
 
     async function get_category() {
-	    const res = fetch("/list/category?userid=0", {
+	    const res = fetch(`/list/category?userid=${user_id}`, {
 				  method: 'GET',
 				  headers: {
 						'Content-Type': 'application/json'
@@ -95,30 +110,83 @@ const PaymentContacts = () => {
 	  alert(`Invalid Phone Number`);
       else
       { 
-		  const res = fetch("/confirm_payment_nonmerchant", {
-			  method: 'POST',
-			  headers: {
-					'Content-Type': 'application/json'
-			  },
-			  body: JSON.stringify({
-			  	     userid: 0,
-					 amount: data.amount,
-					 payment_category_id: data.category_id,
-					 percentage_category: data.percentage,
-					 phone_number: data.phonenum
-			  })
-		  });      	
+		  const valid_phone = fetch(`/validate/phone_number?phone_no=${data.phonenum}`, {
+					  method: 'GET',
+					  headers: {
+							'Content-Type': 'application/json'
+					  },
+				  });
+
+		  valid_phone.then(function(value) { 
+	                
+				  	if(value.ok)
+			  		{ 
+						  const res = fetch("/confirm/payment_nonmerchant", {
+							  method: 'POST',
+							  headers: {
+									'Content-Type': 'application/json'
+							  },
+							  body: JSON.stringify({
+							  	     userid: user_id,
+									 amount: data.amount,
+									 currency: "INR",
+									 payment_category_id: data.category_id,
+									 percentage_category: data.percentage,
+									 phone_number: data.phonenum
+							  })
+						  });
+
+			  		     res.then(function(value) {
+
+						  	 if(value.ok)
+					  		 { 
+							    return value.json();  
+					  		 }
+					  		 else
+					  		 {
+		  		   		  		  let path = "/error"; 
+								  history.push(path);
+					  		 }
+
+				      }).then(res_data => {
+
+
+						        history.push({
+									  pathname: '/FinalPaymentContact',
+									  state: [{name: res_data.payee_fullname,
+									           phone_number: data.phonenum,
+									           upi_id: res_data.upi_id,
+									           category: data.category,
+									           saving: data.percentage,
+									           amount: res_data.amount/100,
+									           order_id: res_data.order_id,
+   									           username: res_data.fullname,
+									           email: res_data.email,
+									           contact: res_data.contact
+									         }]
+								})
+
+				      });
+
+
+		  		} 
+                
+			  		else
+			  		{
+			  		  alert(`User Does not Exist`);	
+			  		}
+
+		      });  	
 
       }
 
 	  // rzp1.open();
       
-
 };
 
 	return (
 		<>
-		    <Navbar />
+		    {navChoice}
 			<div className="my-5">
 				<h1 className="text-center"> Payment to Contacts </h1>
 			</div>

@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar';
+import LoginNavbar from '../LoginNavbar';
 
 const PaymentMerchants = () => {
+
+	var navChoice;
+
+	if (global.config.i18n.state.login === 1) { 
+		navChoice = <LoginNavbar />;
+	}
+	else {
+		navChoice = <Navbar />;
+	}
+
+    const user_id = global.config.i18n.state.id;	
 
     const [data, setData] = useState({
     	merchant:'',
@@ -16,13 +29,15 @@ const PaymentMerchants = () => {
     	code:'',
     });
 
+    const history = useHistory();
+
     const [categdata, setCategdata] = useState({});
 
     const categoptions = [];
     let categmap = new Map(); 
 
     async function get_category() {
-	    const res = fetch("/list/category?userid=0", {
+	    const res = fetch(`/list/category?userid=${user_id}`, {
 				  method: 'GET',
 				  headers: {
 						'Content-Type': 'application/json'
@@ -185,27 +200,77 @@ const PaymentMerchants = () => {
 
 	  e.preventDefault();
 
-	  const res = fetch("/confirm_payment_merchant", {
-		  method: 'POST',
-		  headers: {
-				'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify({
-		  	     userid: 0,
-				 amount: data.amount,
-				 payment_category_id: data.category_id,
-				 percentage_category: data.percentage,
-				 merchant_id: data.merchant_id,
-				 coupon_id: data.coupon_id
-		  })
-	  });
-  
+	  const valid_coupon = fetch(`/validate/coupon?coupon_id=${data.coupon_id}`, {
+				  method: 'GET',
+				  headers: {
+						'Content-Type': 'application/json'
+				  },
+			  });
+
+	  valid_coupon.then(function(value) { 
+                
+			  	if(value.ok)
+		  		{ 
+					  const res = fetch("/confirm/payment_merchant", {
+						  method: 'POST',
+						  headers: {
+								'Content-Type': 'application/json'
+						  },
+						  body: JSON.stringify({
+						  	     userid: user_id,
+								 amount: data.amount,
+								 currency: "INR",
+								 payment_category_id: data.category_id,
+								 percentage_category: data.percentage,
+								 merchant_id: data.merchant_id,
+								 coupon_id: data.coupon_id
+						  })
+					  });
+
+		  		     res.then(function(value) { 
+                
+						  	 if(value.ok)
+					  		 { 
+							    return value.json();  
+					  		 }
+					  		 else
+					  		 {
+		  		   		  		  let path = "/error"; 
+								  history.push(path);
+					  		 }
+
+				      }).then(res_data => {
+
+
+						        history.push({
+									  pathname: '/FinalPaymentMerchant',
+									  state: [{name: data.merchant,
+									           category: data.category,
+									           saving: data.percentage,
+									           amount: res_data.amount/100,
+									           order_id: res_data.order_id,
+									           username: res_data.fullname,
+									           email: res_data.email,
+									           contact: res_data.contact
+									         }]
+								})
+
+				      });
+
+
+		  		}
+		  		else
+		  		{
+		  		  alert(`Invalid Coupon`);	
+		  		}
+
+	      });
 
 };
 
 	return (
 		<>
-		    <Navbar />
+		    {navChoice}
 			<div className="my-5">
 				<h1 className="text-center"> Payment to Merchants </h1>
 			</div>

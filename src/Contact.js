@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
+import LoginNavbar from './LoginNavbar';
 
 const Contact = () => {
+
+	var navChoice;
+
+	if (global.config.i18n.state.login === 1) { 
+		navChoice = <LoginNavbar />;
+	}
+	else {
+		navChoice = <Navbar />;
+	}
 
     const [data, setData] = useState({
     	fname:'',
@@ -29,7 +39,7 @@ const Contact = () => {
 
 	return (
 		<>
-		    <Navbar />
+		    {navChoice}
 			<div className="my-5">
 				<h1 className="text-center"> Contact Us </h1>
 			</div>

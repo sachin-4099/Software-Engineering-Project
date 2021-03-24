@@ -45,15 +45,20 @@ const Login = () => {
                 
 			  	if(value.ok)
 		  		{ 
-		  		  let path = "/userdashboard"; 
-				  history.push(path);
+		  		  return value.json();
 		  		}
 		  		else
 		  		{
 		  		  alert(`Invalid Credentials`);	
 		  		}
 
-	      });
+	      }).then(res_data => {
+						  		  global.config.i18n.state.login = 1;
+		  		  		  		  global.config.i18n.state.id = res_data.user_id;
+	  		    		  		  let path = "/";
+								  history.push(path);
+
+				      });
 
     };
 

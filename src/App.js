@@ -12,6 +12,15 @@ import Blog from './Blog';
 import UserDashboard from './UserDashboard';
 import PaymentContacts from './components/PaymentContacts';
 import PaymentMerchants from './components/PaymentMerchants';
+import FinalPaymentContact from './components/FinalPaymentContact';
+import FinalPaymentMerchant from './components/FinalPaymentMerchant';
+import SuccessPayment from './components/SuccessPayment';
+import TransactionHistory from './TransactionHistory';
+import Expenditure from './Expenditure';
+import Saving from './Saving';
+import Query from './Query';
+import Setting from './Setting';
+import ErrorPage from './components/ErrorPage';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const App = () => {
@@ -29,6 +38,15 @@ const App = () => {
 				<Route exact path="/userdashboard" component={UserDashboard} />
 				<Route exact path="/paymentcontacts" component={PaymentContacts} />
 				<Route exact path="/paymentmerchants" component={PaymentMerchants} />
+				<Route exact path="/finalpaymentcontact" component={FinalPaymentContact} />
+				<Route exact path="/finalpaymentmerchant" component={FinalPaymentMerchant} />
+				<Route exact path="/successpayment" component={SuccessPayment} />
+				<Route exact path="/transactionhistory" component={TransactionHistory} />
+				<Route exact path="/expenditure" component={Expenditure} />
+				<Route exact path="/saving" component={Saving} />
+				<Route exact path="/query" component={Query} />
+				<Route exact path="/setting" component={Setting} />
+				<Route exact path="/error" component={ErrorPage} />
 				<Redirect to="/" />
 			</Switch>
 		</>

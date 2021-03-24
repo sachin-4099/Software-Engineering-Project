@@ -1,12 +1,24 @@
 import React from 'react';
 import Common from './Common';
 import Navbar from './Navbar';
+import LoginNavbar from './LoginNavbar';
 import web from "../src/images/gullak.png";
 
+
 const Home = () => {
+	
+	var navChoice;
+
+	if (global.config.i18n.state.login === 1) { 
+		navChoice = <LoginNavbar />;
+	}
+	else {
+		navChoice = <Navbar />;
+	}
+
 	return (
 		<>
-		    <Navbar />
+		    {navChoice}
 			<Common  
 				name='Grow your money with' 
 				imgsrc={web} 

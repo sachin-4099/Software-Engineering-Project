@@ -1,12 +1,23 @@
 import React from 'react';
 import Card from './Card';
 import Navbar from './Navbar';
+import LoginNavbar from './LoginNavbar';
 import Sdata from './Sdata';
 
 const Partners = () => {
+
+	var navChoice;
+
+	if (global.config.i18n.state.login === 1) { 
+		navChoice = <LoginNavbar />;
+	}
+	else {
+		navChoice = <Navbar />;
+	}
+
 	return (
 		<>
-		    <Navbar />
+		    {navChoice}
 			<div className="my-5">
 				<h1 className="text-center"> Our Partners </h1>
 			</div>
