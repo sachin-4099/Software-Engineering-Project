@@ -1,4 +1,5 @@
 import "./Sidebar.css";
+import { NavLink } from 'react-router-dom';
 import logo from "../../assets/logo.png";
 
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
@@ -18,10 +19,18 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
       </div>
 
       <div className="sidebar__menu">
-        <div className="sidebar__link active_menu_link">
-          <i className="fa fa-home"></i>
-          <a href="#">Dashboard</a>
+        <div className="sidebar__link">
+          <i className="fa fa-home">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="/userdashboard"
+          >
+            Dashboard 
+          </NavLink>
+          </i>
         </div>
+
 
         {/*<div className="sidebar__link">
           <i className="fa fa-user-secret" aria-hidden="true"></i>
@@ -32,28 +41,70 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           <a href="#">Company Management</a>
         </div>*/}
         <div className="sidebar__link">
-          <i className="fa fa-money"></i>
-          <a href="#">Transactions</a>
+          <i className="fa fa-money">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="/expenditure"
+          >
+            Expenditures 
+          </NavLink>
+          </i>
         </div>
         <div className="sidebar__link">
-          <i className="fa fa-briefcase"></i>
-          <a href="#">Savings</a>
+          <i className="fa fa-briefcase">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="/saving"
+          >
+            Savings
+          </NavLink>
+          </i>
+        </div>
+        {/*<div className="sidebar__link">
+          <i className="fa fa-archive">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="#"
+          >
+            Investments
+          </NavLink>
+          </i>
+        </div>*/}
+        <div className="sidebar__link">
+          <i className="fa fa-question">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="/query"
+          >
+            Queries
+          </NavLink>
+          </i>
         </div>
         <div className="sidebar__link">
-          <i className="fa fa-archive"></i>
-          <a href="#">Investments</a>
+          <i className="fa fa-history">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="/transactionhistory"
+          >
+            Transaction History
+          </NavLink>
+          </i>
         </div>
         <div className="sidebar__link">
-          <i className="fa fa-question"></i>
-          <a href="#">Queries</a>
-        </div>
-        <div className="sidebar__link">
-          <i className="fa fa-history"></i>
-          <a href="#">Transaction History</a>
-        </div>
-        <div className="sidebar__link">
-          <i className="fa fa-wrench"></i>
-          <a href="#">Settings</a>
+          <i className="fa fa-wrench">
+          <NavLink 
+            activeClassName="sidebar__link active_menu_link" 
+            className="sidebar__link" 
+            to="/setting"
+          >
+            Settings
+          </NavLink>
+          </i>
         </div>
         {/*<h2>LEAVE</h2>
         <div className="sidebar__link">

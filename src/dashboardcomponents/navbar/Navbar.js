@@ -1,4 +1,5 @@
 import "./Navbar.css";
+import { NavLink } from 'react-router-dom';
 import avatar from "../../assets/avatar.svg";
 
 const Navbar = ({ sidebarOpen, openSidebar }) => {
@@ -8,19 +9,50 @@ const Navbar = ({ sidebarOpen, openSidebar }) => {
         <i className="fa fa-bars" aria-hidden="true"></i>
       </div>
       <div className="navbar__left">
-        <a href="#">Expenditure</a>
-        <a href="#">Savings</a>
-        <a className="active_link" href="#">
+        <NavLink 
+          activeClassName="active_link" 
+          to="/userdashboard"
+        >
           User
-        </a>
+        </NavLink>        
+        <NavLink 
+          activeClassName="active_link" 
+          to="/expenditure"
+        >
+          Expenditures
+        </NavLink>
+        <NavLink 
+          activeClassName="active_link" 
+          to="/saving"
+        >
+          Savings
+        </NavLink>
+        <NavLink 
+          activeClassName="active_link" 
+          to="/query"
+        >
+          Queries
+        </NavLink>
+        <NavLink 
+          activeClassName="active_link" 
+          to="/transactionhistory"
+        >
+          Transaction History
+        </NavLink> 
+        <NavLink 
+          activeClassName="active_link" 
+          to="/setting"
+        >
+          Settings
+        </NavLink>        
       </div>
       <div className="navbar__right">
-        <a href="#">
+        {/*<a href="#">
           <i className="fa fa-search" aria-hidden="true"></i>
         </a>
         <a href="#">
           <i className="fa fa-clock-o" aria-hidden="true"></i>
-        </a>
+        </a>*/}
         <a href="#!">
           <img width="30" src={avatar} alt="avatar" />
         </a>

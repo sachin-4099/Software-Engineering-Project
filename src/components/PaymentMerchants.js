@@ -13,7 +13,9 @@ const PaymentMerchants = () => {
 	}
 	else {
 		navChoice = <Navbar />;
-	}	
+	}
+
+    const user_id = global.config.i18n.state.id;	
 
     const [data, setData] = useState({
     	merchant:'',
@@ -35,7 +37,7 @@ const PaymentMerchants = () => {
     let categmap = new Map(); 
 
     async function get_category() {
-	    const res = fetch("/list/category?userid=0", {
+	    const res = fetch(`/list/category?userid=${user_id}`, {
 				  method: 'GET',
 				  headers: {
 						'Content-Type': 'application/json'
@@ -215,7 +217,7 @@ const PaymentMerchants = () => {
 								'Content-Type': 'application/json'
 						  },
 						  body: JSON.stringify({
-						  	     userid: 0,
+						  	     userid: user_id,
 								 amount: data.amount,
 								 currency: "INR",
 								 payment_category_id: data.category_id,
