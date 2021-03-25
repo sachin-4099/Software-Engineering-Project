@@ -121,9 +121,9 @@ def update_locking_period():
     req = request.json
     userid= req.get("user_id")
     locking_period = req.get("locking_period")
-    result = UserServices.update_locking_period()
+    result = UserServices.update_locking_period(userid, locking_period)
     response = app.response_class(
-        response=json.dumps(discount),
+        response=json.dumps(result),
         status=200,
         mimetype='application/json'
     )
@@ -131,10 +131,10 @@ def update_locking_period():
 
 @app.route("/list/locking_period", methods=["GET"])
 def get_locking_period():
-    userid = request.args.get('merchantid')
-    result = UserServices.get_locking_period()
+    userid = request.args.get('userid')
+    result = UserServices.get_locking_period(userid)
     response = app.response_class(
-        response=json.dumps(response),
+        response=json.dumps(result),
         status=200,
         mimetype='application/json'
     )
