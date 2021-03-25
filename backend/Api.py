@@ -146,6 +146,7 @@ def update_saving_percentage():
     userid= req.get("userid")
     saving_percentage = req.get("saving_percentage")
     category_id = req.get("category_id")
+    print(saving_percentage)
     result = UserServices.update_saving_percentage(userid, saving_percentage, category_id)
     response = app.response_class(
         response=json.dumps(result),

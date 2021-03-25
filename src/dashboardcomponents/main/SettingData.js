@@ -189,7 +189,7 @@ const SettingData = () => {
                   setData((preVal) => {
                     return {
                         ...preVal,
-                        ["percentage"]: data.new_percentage,
+                        ["percentage"]: data.new_percentage + '%',
                         ["new_percentage"]: '',
                     };
 
