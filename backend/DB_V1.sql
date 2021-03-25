@@ -38,7 +38,7 @@ create table transaction_status(
 
 create table transaction(
 	id BIGINT PRIMARY KEY,
-	paid_by VARCHAR(255),
+	paid_by INTEGER,
 	total_amt INT,
 	currency VARCHAR(255),
 	category_id INTEGER,
@@ -47,7 +47,7 @@ create table transaction(
 	paid_to_type CHARACTER,
 	transaction_at DATE,
 	status_id INTEGER,
-	FOREIGN KEY(paid_by) REFERENCES userdb(username),
+	FOREIGN KEY(paid_by) REFERENCES userdb(userid),
 	FOREIGN KEY(category_id) REFERENCES category(id),
 	FOREIGN KEY(status_id) REFERENCES transaction_status(status_id)
 );
