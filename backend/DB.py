@@ -93,3 +93,9 @@ def execute_query(query):
     cur.execute(query)
     res= cur.fetchall()
     return res
+
+def execute_update_query(query):
+    cur, conn= connect_to_db()
+    cur.execute(query)
+    conn.commit()
+    return cur.rowcount
