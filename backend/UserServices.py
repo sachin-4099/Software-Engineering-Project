@@ -13,16 +13,17 @@ def validate_user_from_phoneNumber(phone_no):
 def update_locking_period(userid, lockingperiod):
     query = "update userdb set lockingperiod={} where userid={}".format(lockingperiod, userid)
     try:
-        res = db.execute_query(query)
+        print(3)
+        db.execute_query(query)
+        print(len(res))
         return {"success": True}
-        print(res)
     except:
         return {"success": False}
 
 def get_locking_period(userid):
     query = "select lockingperiod from userdb where userid = {}".format(userid)
     res = db.execute_query(query)
-    resp = {"user_id": userid, "locking_period": res[0][0]}
+    resp = {"locking_period": res[0][0]}
     return resp
 
 def update_saving_percentage(userid, percentage, categoryid):

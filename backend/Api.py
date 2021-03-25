@@ -119,11 +119,11 @@ def validate_coupon():
 @app.route("/update/locking_period", methods=["PUT"])
 def update_locking_period():
     req = request.json
-    userid= req.get("user_id")
-    locking_period = req.get("locking_period")
-    result = UserServices.update_locking_period()
+    userid= req.get("userid")
+    lockingperiod = req.get("locking_period")
+    result = UserServices.update_locking_period(userid, lockingperiod)
     response = app.response_class(
-        response=json.dumps(discount),
+        response=json.dumps(result),
         status=200,
         mimetype='application/json'
     )
@@ -131,10 +131,10 @@ def update_locking_period():
 
 @app.route("/list/locking_period", methods=["GET"])
 def get_locking_period():
-    userid = request.args.get('merchantid')
-    result = UserServices.get_locking_period()
+    userid = request.args.get('userid')
+    result = UserServices.get_locking_period(userid)
     response = app.response_class(
-        response=json.dumps(response),
+        response=json.dumps(result),
         status=200,
         mimetype='application/json'
     )
@@ -143,7 +143,7 @@ def get_locking_period():
 @app.route("/update/saving_percentage", methods=["PUT"])
 def update_saving_percentage():
     req = request.json
-    userid= req.get("user_id")
+    userid= req.get("userid")
     saving_percentage = req.get("saving_percentage")
     category_id = req.get("category_id")
     result = UserServices.update_saving_percentage(userid, saving_percentage, category_id)
