@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 import Navbar from '../Navbar';
 import LoginNavbar from '../LoginNavbar';
 
@@ -8,14 +9,14 @@ const PaymentMerchants = () => {
 
 	var navChoice;
 
-	if (global.config.i18n.state.login === 1) { 
+	if (Cookies.get("user")) { 
 		navChoice = <LoginNavbar />;
 	}
 	else {
 		navChoice = <Navbar />;
-	}
+	}	
 
-    const user_id = global.config.i18n.state.id;	
+    const user_id = Cookies.get("user");	
 
     const [data, setData] = useState({
     	merchant:'',

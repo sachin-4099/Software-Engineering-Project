@@ -115,20 +115,46 @@ def confirmPaymentNonMerchant(userid, actual_amount, order_currency, payment_cat
 
 
 def get_transactions(userid):
-    query = "select t.id, t.total_amt, t.amount_saved, t.paid_to, t.transaction_at, s.status, c.name  from transaction t, transaction_status s, category c where t.status_id = s.status_id and c.id = t.category_id and paid_by = {}".format(userid)
+    query = "select t.id, t.total_amt, t.amount_saved, t.paid_to, t.paid_to_type, t.transaction_at, s.status, c.name  from transaction t, transaction_status s, category c where t.status_id = s.status_id and c.id = t.category_id and paid_by = {}".format(userid)
     res = db.execute_query(query)
-    print(query)
+
+    for i in range(len(res)):
+        transaction = list(res[i])
+        
+        if(transaction[4] == 'M'):
+            new_query = "select merchant_name from merchants where merchant_id = {}".format(transaction[3])
+            new_res = db.execute_query(new_query)
+            transaction[3] = new_res[0][0]
+        else:
+            new_query = "select firstname, lastname from userdb where userid = {}".format(transaction[3])
+            new_res = db.execute_query(new_query)
+            transaction[3] = new_res[0][0] + ' ' + new_res[0][1]
+
+        res[i] = tuple(transaction)
+
     resp = []
-    for i in res:
+    for transaction in res:
         temp = {
-            "transaction_id":i[0],
-            "total_amount": i[1],
-            "excess_paid":i[2],
-            "actual_amount": i[1]-i[2],
-            "paid_to": i[3],
-            "tranaction_at": i[4],
-            "transaction_status": i[5],
-            "category": i[6]
+            "transaction_id":transaction[0],
+            "total_amount": transaction[1],
+            "saving": transaction[2],
+            "expenditure": transaction[1] - transaction[2],
+            "paid_to": transaction[3],
+            "tranaction_at": transaction[5],
+            "transaction_status": transaction[6],
+            "category": transaction[7]
+        }
+        resp.append(temp)
+    return resp
+
+def get_queries(userid):
+    query = "select transaction_id, query_msg from queries where userid = {}".format(userid)
+    res = db.execute_query(query)
+
+    for query in res:
+        temp = {
+            "transaction_id": query[0],
+            "msg": query[1]
         }
         resp.append(temp)
     return resp

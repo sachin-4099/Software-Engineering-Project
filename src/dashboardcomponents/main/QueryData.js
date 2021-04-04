@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import Cookies from 'js-cookie';
 import "./Main.css";
 
 const QueryData = () => {
@@ -9,7 +10,7 @@ const QueryData = () => {
       query_msg:'',
     });
 
-    const user_id = global.config.i18n.state.id;
+    const user_id = Cookies.get("userid");
 
     const [transactiondata, setTransactiondata] = useState({});
 

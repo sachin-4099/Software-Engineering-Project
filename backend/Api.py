@@ -179,6 +179,15 @@ def get_transactions():
         mimetype='application/json'
     )
 
+@app.route("/list/queries", methods=["GET"])
+def get_queries():
+    userid = request.args.get('userid')
+    resp = PaymentService.get_queries(userid)
+    return app.response_class(
+        response=json.dumps(resp),
+        status=200,
+        mimetype='application/json'
+    )
 
 if __name__=="__main__":
     app.run(debug=True)

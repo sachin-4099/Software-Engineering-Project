@@ -2,18 +2,19 @@ import React from 'react';
 import { useHistory, useLocation } from "react-router-dom";
 import img from "../images/piggybank.jpg";
 import Navbar from '../Navbar';
+import Cookies from "js-cookie";
 import LoginNavbar from '../LoginNavbar';
 
 const FinalPaymentContact = () => {
 
 	var navChoice;
 
-	if (global.config.i18n.state.login === 1) { 
+	if (Cookies.get("user")) { 
 		navChoice = <LoginNavbar />;
 	}
 	else {
 		navChoice = <Navbar />;
-	}
+	}	
 
     const location = useLocation();
     const history = useHistory();
