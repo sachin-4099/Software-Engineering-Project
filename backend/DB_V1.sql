@@ -2,9 +2,9 @@ create table userdb(
 	userid SERIAL PRIMARY KEY,
 	username VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
-	firstname VARCHAR(255) NOT NULL,
-	lastname VARCHAR(255),
-	lockingperiod INTEGER,
+	first_name VARCHAR(255) NOT NULL,
+	last_name VARCHAR(255),
+	locking_period INTEGER,
 	upi VARCHAR(255) NOT NULL,
 	phone_number BIGINT NOT NULL UNIQUE,
 );
@@ -37,7 +37,7 @@ create table transaction_status(
 );
 
 create table transaction(
-	id BIGINT PRIMARY KEY,
+	id VARCHAR(255) PRIMARY KEY,
 	paid_by INTEGER,
 	total_amt INT,
 	currency VARCHAR(255),
@@ -54,7 +54,7 @@ create table transaction(
 
 CREATE TABLE queries (
 	userid INTEGER,
-	transaction_id BIGINT,
+	transaction_id VARCHAR(255),
 	FOREIGN KEY (userid) REFERENCES userdb(userid),
 	FOREIGN KEY (transaction_id) REFERENCES transaction(id),
 	query_msg VARCHAR(255)

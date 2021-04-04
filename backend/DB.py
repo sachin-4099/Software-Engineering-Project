@@ -1,4 +1,6 @@
 import psycopg2
+from psycopg2 import sql
+
 
 def connect_to_db():
     """ Connect to the PostgreSQL database server """
@@ -6,21 +8,23 @@ def connect_to_db():
     try:
         # read connection parameters
         conn = psycopg2.connect(
-                host="localhost",
-                database="swe",
-                user="postgres",
-                password="qwerty"
+            host="localhost",
+            database="swe",
+            user="postgres",
+            password="qwerty"
         )
         cur = conn.cursor()
         return cur, conn
     except:
         print("error")
-        return None
+        return None, None
+
 
 def close_connection(conn):
     conn.commit()
     conn.close()
     print('Database connection closed.')
+
 
 # create table admindb(
 #       uid SERIAL PRIMARY KEY,
@@ -30,72 +34,88 @@ def close_connection(conn):
 #       password VARCHAR(255) NOT NULL
 # );
 
-def check_if_exist(cur, uname):
-    query= "Select password from userdb where username='{}'".format(uname)
-    cur.execute(query)
-    res= cur.fetchone()
-    print("in user db", res)
-    if(res != None):
-        return ["User", res[0]]
-    query= "Select username, password from admindb where username='{}'".format(uname)
-    cur.execute(query)
-    res= cur.fetchone()
-    print("in admin db", res)
-    if(res != None):
-        return ["Admin", res[0]]
-    return ["False", None]
+def check_if_exist(uname):
+    query = sql.SQL("Select {column} from {table} where username=%(username)s").format(
+        column=sql.Identifier("password"),
+        table=sql.Identifier("userdb"))
+    params = {"username": uname}
+    res = execute_query(query, params)
+    resp = {"designation": None, "password": None}
+    if (len(res) != 0):
+        resp["designation"] = "User"
+        resp["password"] = res[0][0]
+        return resp
+    query = sql.SQL("Select {column} from {table} where username=%(username)s").format(
+        column=sql.Identifier("password"),
+        table=sql.Identifier("admindb"))
+    res = execute_query(query, params)
+    if (len(res) != 0):
+        resp["designation"] = "Admin"
+        resp["password"] = res[0][0]
+        return resp
+    return resp
 
-def add_user(fname, lname, uname, password):
-    cur, conn= connect_to_db()
-    if(cur==None):
-        return "Error"
-    if(check_if_exist(cur, uname)[0] in ["User", "Admin"]):
+
+def add_user(fname, lname, uname, password, locking_period, upi, phone_number):
+    if check_if_exist(uname).get("designation") in ["User", "Admin"]:
         print("aleady there")
-        return "Already Exist"
-    query="Insert into userdb(firstname, lastname, username, password) values('{}','{}','{}','{}');".format(fname, lname, uname, password)
-    cur.execute(query)
-    close_connection(conn)
+        return {"Exists": True, "Success": False}
+    query = sql.SQL("INSERT INTO userdb(userid, first_name, last_name, username, password, locking_period, upi, "
+                    "phone_number) VALUES(DEFAULT,  %s, %s, %s, %s, %s, %s, %s)")
+
+    print("Query ", query)
+    updated = execute_insert_query(query, [fname, lname, uname, password, locking_period, upi, phone_number])
+    print("updated: ", updated)
+    if (updated > 0):
+        return {"Exists": False, "Success": True}
+    return {"Exists": False, "Success": False}
 
 
 def get_user_id_from_username(uname):
-    query = "select userid from userdb where username='{}';".format(uname)
-    return execute_query(query)[0][0]
+    query = "select userid from userdb where username=%s;"
+    return execute_query(query, [uname])[0][0]
+
 
 def get_admin_id_from_username(uname):
-    query = "select userid from admindb where username='{}';".format(uname)
-    return execute_query(query)[0][0]
+    query = "select userid from admindb where username=%s"
+    return execute_query(query, [uname])[0][0]
+
 
 def auth_user(uname, password):
-    cur, conn= connect_to_db()
-    res= check_if_exist(cur, uname)
-    op = {}
-    if(res[0]=='False'):
-        op["status"]=False
-        return op
-    _uname= res[0]
-    _password= res[1]
-    if(_password==password):
-        op["status"]=True
-        if(_uname=="User"):
-            _userid = get_user_id_from_username(uname)
-            op["user_id"]=_userid
-            op["used_by"]="User"
-        else:
-            _userid = get_admin_id_from_username(uname)
-            op["user_id"]=_userid
-            op["used_by"]="Admin"
-    else:
-        op["status"]=False
-    return op
+    res = check_if_exist(uname)
+    result = {"status": False, "user_id": None, "designation": None}
+    if (res.get("designation")):
+        designation = res.get("designation")
+        _password = res.get("password")
+        if (_password == password):
+            result["status"] = True
+            if (designation == "User"):
+                _userid = get_user_id_from_username(uname)
+                result["user_id"] = _userid
+                result["designation"] = "User"
+            else:
+                _userid = get_admin_id_from_username(uname)
+                result["user_id"] = _userid
+                result["designation"] = "Admin"
+    return result
 
-def execute_query(query):
-    cur, conn= connect_to_db()
-    cur.execute(query)
-    res= cur.fetchall()
+
+def execute_query(query, params=None):
+    cur, conn = connect_to_db()
+    cur.execute(query, params)
+    res = cur.fetchall()
     return res
 
-def execute_update_query(query):
-    cur, conn= connect_to_db()
-    cur.execute(query)
+
+def execute_insert_query(query, params=None):
+    cur, conn = connect_to_db()
+    cur.execute(query, params)
+    conn.commit()
+    return cur.rowcount
+
+
+def execute_update_query(query, params=None):
+    cur, conn = connect_to_db()
+    cur.execute(query, params)
     conn.commit()
     return cur.rowcount
