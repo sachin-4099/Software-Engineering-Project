@@ -236,6 +236,7 @@ def get_transactions():
         mimetype='application/json'
     )
 
+
 @app.route("/list/queries", methods=["GET"])
 def get_queries():
     userid = request.args.get('userid')
@@ -246,15 +247,22 @@ def get_queries():
         mimetype='application/json'
     )
 
-@app.route("/validate/transaction", methods=["POST"])
-def validate_transaction():
-    order_id = request.json.get("order_id")
-    success = request.json.get("success")
-    print(success)
-    resp = PaymentService.validate_transaction(order_id, success)
+
+@app.route("/successful_payment", methods=["POST"])
+def payment_successful():
+    req = request.json
+    payment_id = req.get("razorpay_payment_id")
+    order_id = req.get("razorpay_order_id")
+    payment_signature = req.get("razorpay_signature")
+    success = req.get("success")
+    resp = PaymentService.validate_transaction(payment_id, order_id, payment_signature, success)
+    if (resp.get("success")):
+        status = 200
+    else:
+        status = 500
     return app.response_class(
         response=json.dumps(resp),
-        status=200,
+        status=status,
         mimetype='application/json'
     )
 
