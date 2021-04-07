@@ -202,6 +202,7 @@ def update_saving_percentage():
     userid = req.get("user_id")
     saving_percentage = req.get("saving_percentage")
     category_id = req.get("category_id")
+    print(saving_percentage)
     result = UserServices.update_saving_percentage(userid, saving_percentage, category_id)
     response = app.response_class(
         response=json.dumps(result),
@@ -235,6 +236,15 @@ def get_transactions():
         mimetype='application/json'
     )
 
+@app.route("/list/queries", methods=["GET"])
+def get_queries():
+    userid = request.args.get('userid')
+    resp = PaymentService.get_queries(userid)
+    return app.response_class(
+        response=json.dumps(resp),
+        status=200,
+        mimetype='application/json'
+    )
 
 @app.route("/validate/transaction", methods=["POST"])
 def validate_transaction():

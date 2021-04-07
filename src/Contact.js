@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
+import Cookies from 'js-cookie';
 import LoginNavbar from './LoginNavbar';
 
 const Contact = () => {
 
 	var navChoice;
 
-	if (global.config.i18n.state.login === 1) { 
+	if (Cookies.get("user")) { 
 		navChoice = <LoginNavbar />;
 	}
 	else {
 		navChoice = <Navbar />;
-	}
+	}	
 
     const [data, setData] = useState({
     	fname:'',

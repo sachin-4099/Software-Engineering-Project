@@ -171,7 +171,6 @@ def get_transactions(userid):
         resp.append(temp)
     return resp
 
-
 def success_transaction(order_id):
     resp = client.order.fetch(order_id)
     notes = resp.get("notes")

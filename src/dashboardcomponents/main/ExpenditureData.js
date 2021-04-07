@@ -11,14 +11,15 @@ const ExpenditureData = () => {
       date:'',
     });
 
-    const user_id = global.config.i18n.state.id;
+    const user_id = 0;
 
     const [transactiondata, setTransactiondata] = useState({});
 
     const transactions = [];
+    let transactionmap = new Map();
 
     async function get_transactions() {
-      const res = fetch(`/list/transaction?userid=${user_id}`, {
+      const res = fetch(`/list/transactions?userid=${user_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -37,34 +38,27 @@ const ExpenditureData = () => {
 
 
     for(var itr = 0; itr < transactiondata.length; ++itr)
-    transactions.push({label: transactiondata[itr].id, value: transactiondata[itr].id});
+    { 
+      if(transactiondata[itr].transaction_status === 'success')
+      { transactions.push({label: transactiondata[itr].transaction_id, value: transactiondata[itr].transaction_id});
+        transactionmap.set(transactiondata[itr].transaction_id, itr);
+      }
+    }
 
     const InputEventTransaction = (event) => {
       
       const { label, value } = event;
-
-      const transaction_detail = fetch(`/expenditure?transaction_id=${value}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-      });
-
-      transaction_detail.then(function(res) { 
-        return res.json();
-      }).then(res_data => {
+      var index = transactionmap.get(value);
             
-            setData((preVal) => {
-                return {
-                    ...preVal,
-                    ["transaction_id"]: value,
-                    ["category"]: res_data.category,
-                    ["expenditure"]: res_data.amount,
-                    ["date"]: res_data.date,
-                };
-            });
-
-      });
+        setData((preVal) => {
+            return {
+                ...preVal,
+                ["transaction_id"]: value,
+                ["category"]: transactiondata[index].category,
+                ["expenditure"]: transactiondata[index].expenditure,
+                ["date"]: transactiondata[index].tranaction_at,
+            };
+        });
 
     };
 

@@ -1,8 +1,20 @@
 import "./Sidebar.css";
-import { NavLink } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import logo from "../../assets/logo.png";
 
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
+
+  const history = useHistory();
+
+  const removeCookie = (e) => {
+      
+      e.preventDefault();
+      Cookies.remove("user");
+      let path = "/";
+      history.push(path);
+  }
+
   return (
     <div className={sidebarOpen ? "sidebar_responsive" : ""} id="sidebar">
       <div className="sidebar__title">
@@ -134,7 +146,13 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
         </div>*/}
         <div className="sidebar__logout">
           <i className="fa fa-power-off"></i>
-          <a href="/">Log out</a>
+          <NavLink 
+            className="sidebar__logout"
+            to = "/"
+            onClick = {removeCookie}
+          >
+            Logout
+          </NavLink>
         </div>
       </div>
     </div>

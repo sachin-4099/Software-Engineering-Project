@@ -11,7 +11,7 @@ const Main = () => {
         <div className="main__title">
           <img src={hello} alt="hello" />
           <div className="main__greeting">
-            <h1>Hello User</h1>
+            <h1>Hello Ojasv</h1>
             <p>Welcome to your user dashboard</p>
           </div>
         </div>
@@ -27,7 +27,7 @@ const Main = () => {
             ></i>
             <div className="card_inner">
               <p className="text-primary-p">Number of Transactions</p>
-              <span className="font-bold text-title">30</span>
+              <span className="font-bold text-title">2</span>
             </div>
           </div>
 
@@ -35,7 +35,7 @@ const Main = () => {
             <i className="fa fa-money fa-2x text-red" aria-hidden="true"></i>
             <div className="card_inner">
               <p className="text-primary-p">Expenditure</p>
-              <span className="font-bold text-title">2467</span>
+              <span className="font-bold text-title">1320</span>
             </div>
           </div>
 
@@ -46,7 +46,7 @@ const Main = () => {
             ></i>
             <div className="card_inner">
               <p className="text-primary-p">Savings</p>
-              <span className="font-bold text-title">340</span>
+              <span className="font-bold text-title">120</span>
             </div>
           </div>
         </div>
@@ -58,7 +58,6 @@ const Main = () => {
             <div className="charts__left__title">
               <div>
                 <h1>Daily Reports</h1>
-                <p>Cupertino, California, USA</p>
               </div>
               <i className="fa fa-usd" aria-hidden="true"></i>
             </div>
@@ -69,7 +68,6 @@ const Main = () => {
             <div className="charts__right__title">
               <div>
                 <h1>Stats Reports</h1>
-                <p>Cupertino, California, USA</p>
               </div>
               <i className="fa fa-usd" aria-hidden="true"></i>
             </div>
@@ -77,22 +75,22 @@ const Main = () => {
             <div className="charts__right__cards">
               <div className="card1">
                 <h1>Income</h1>
-                <p>$75,300</p>
+                <p>₹75,000</p>
               </div>
 
               <div className="card2">
                 <h1>Expenditure</h1>
-                <p>$124,200</p>
+                <p>₹1320</p>
               </div>
 
               <div className="card3">
                 <h1>Savings</h1>
-                <p>$3,900</p>
+                <p>₹120</p>
               </div>
 
               <div className="card4">
                 <h1>Transactions</h1>
-                <p>1881</p>
+                <p>2</p>
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./css/index.css";
 import Navbar from './Navbar';
 
@@ -53,8 +54,7 @@ const Login = () => {
 		  		}
 
 	      }).then(res_data => {
-						  		  global.config.i18n.state.login = 1;
-		  		  		  		  global.config.i18n.state.id = res_data.user_id;
+						  		  Cookies.set("user", res_data.user_id);
 	  		    		  		  let path = "/";
 								  history.push(path);
 

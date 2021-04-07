@@ -3,6 +3,7 @@ import PhoneInput from "react-phone-number-input/input";
 import 'react-phone-number-input/style.css';
 import Select from 'react-select';
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 import Navbar from '../Navbar';
 import LoginNavbar from '../LoginNavbar';
 
@@ -10,14 +11,14 @@ const PaymentContacts = () => {
 
 	var navChoice;
 
-	if (global.config.i18n.state.login === 1) { 
+	if (Cookies.get("user")) { 
 		navChoice = <LoginNavbar />;
 	}
 	else {
 		navChoice = <Navbar />;
 	}	
-    
-    const user_id = global.config.i18n.state.id;
+
+    const user_id = Cookies.get("user");
 
     const [data, setData] = useState({
     	phonenum:'',

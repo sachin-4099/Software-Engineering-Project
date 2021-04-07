@@ -2,18 +2,19 @@ import React from 'react';
 import Card from './Card';
 import Navbar from './Navbar';
 import LoginNavbar from './LoginNavbar';
+import Cookies from 'js-cookie';
 import Sdata from './Sdata';
 
 const Partners = () => {
 
 	var navChoice;
 
-	if (global.config.i18n.state.login === 1) { 
+	if (Cookies.get("user")) { 
 		navChoice = <LoginNavbar />;
 	}
 	else {
 		navChoice = <Navbar />;
-	}
+	}	
 
 	return (
 		<>

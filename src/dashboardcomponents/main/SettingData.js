@@ -13,7 +13,7 @@ const SettingData = () => {
       new_percentage:'',
     });
 
-    const user_id = global.config.i18n.state.id;
+    const user_id = 0;
 
     const [categdata, setCategdata] = useState({});
 
@@ -33,7 +33,7 @@ const SettingData = () => {
     }
 
     async function get_lockingperiod() {
-      const res = fetch(`/lockingperiod?userid=${user_id}`, {
+      const res = fetch(`/list/locking_period?userid=${user_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -112,9 +112,106 @@ const SettingData = () => {
 
     };
 
-    const formSubmit = (e) => {
+    const UpdateLocking = (e) => {
 
       e.preventDefault();
+
+      const res = fetch("/update/locking_period", {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                 userid: user_id,
+                 locking_period: data.new_locking_period
+              })
+      });
+
+      res.then(response => response.json()).then(res_data =>  {
+          
+          console.log(res_data);
+
+          if(res_data.success === true)
+          {
+            alert(`Successfully Updated Locking Period`);
+                  setData((preVal) => {
+                    return {
+                        ...preVal,
+                        ["locking_period"]: data.new_locking_period,
+                        ["new_locking_period"]: '',
+                    };
+
+                });
+
+          }
+          else
+          {
+             alert(`Please Try Again`); 
+
+             setData((preVal) => {
+                    return {
+                        ...preVal,
+                        ["new_locking_period"]: '',
+                    };
+
+              });
+
+          }
+
+
+      });
+
+};
+
+    const UpdatePercentage = (e) => {
+
+      e.preventDefault();
+
+      const res = fetch("/update/saving_percentage", {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                 userid: user_id,
+                 saving_percentage: data.new_percentage,
+                 category_id: data.category_id
+              })
+      });
+
+      res.then(response => response.json()).then(res_data =>  {
+          
+          console.log(res_data);
+
+          if(res_data.success === true)
+          {
+            alert(`Successfully Updated Saving Percentage`);
+                  setData((preVal) => {
+                    return {
+                        ...preVal,
+                        ["percentage"]: data.new_percentage + '%',
+                        ["new_percentage"]: '',
+                    };
+
+                });
+
+          }
+          else
+          {
+             alert(`Please Try Again`); 
+
+             setData((preVal) => {
+                    return {
+                        ...preVal,
+                        ["new_percentage"]: '',
+                    };
+
+              });
+
+          }
+
+
+      });
 
 };
 
@@ -127,7 +224,7 @@ const SettingData = () => {
         <div className="container contact_div">
           <div className="row">
             <div className="col-md-6 col-10 mx-auto">
-              <form onSubmit={formSubmit}>
+              <form onSubmit={UpdateLocking}>
                 <div className="mb-3">  
                     <label for="exampleFormControlInput1" className="form-label"> Locking Period </label>
                     <input 
@@ -135,7 +232,7 @@ const SettingData = () => {
                        className="form-control" 
                        id="exampleFormControlInput1"
                        value={data.locking_period}
-                       placeholder="Locking Period"
+                       placeholder="Locking Period (in Days)"
                        readonly="readonly" 
                     />
                 </div>
@@ -150,7 +247,11 @@ const SettingData = () => {
                        onChange={InputEventLockingPeriod} 
                        placeholder="New Locking Period (in Days)"
                     />
-                </div>           
+                </div> 
+                <div className="col-12">
+                  <button className="btn btn-outline-primary" type="submit"> Update Locking Period </button>
+                </div>
+                <br/>             
                 <div className="mb-3">  
                     <label className="form-label"> Category </label>
                     <Select 
@@ -163,6 +264,8 @@ const SettingData = () => {
                      label="Single select"
                     />
                 </div>
+              </form>
+              <form onSubmit={UpdatePercentage}>
                 <div className="mb-3">  
                     <label for="exampleFormControlInput1" className="form-label"> Saving Percentage </label>
                     <input 
@@ -187,7 +290,7 @@ const SettingData = () => {
                     />
                 </div>
                 <div className="col-12">
-                  <button className="btn btn-outline-primary" type="submit"> Update Preferences </button>
+                  <button className="btn btn-outline-primary" type="submit"> Update Saving Percentage </button>
                 </div>                                
               </form>
             </div>
