@@ -9,6 +9,8 @@ const Register = () => {
     	lname:'',
     	uname:'',
     	password:'',
+    	upi:'',
+    	phonenum:''
     });
 
     const history = useHistory();
@@ -39,7 +41,9 @@ const Register = () => {
 					 fname: data.fname,
 					 lname: data.lname,
 					 uname: data.uname,
-					 password: data.password
+					 password: data.password,
+					 upi: data.upi,
+					 phone_number: data.phonenum
 			  })
 		  });
   
@@ -114,7 +118,31 @@ const Register = () => {
 							    onChange={InputEvent}   
 							    placeholder="Password" 
 						    />
-						  </div>						    
+						  </div>
+						  <div className="mb-3">
+						    <label for="exampleFormControlInput1" className="form-label"> UPI ID </label>
+						    <input 
+							    type="text" 
+							    className="form-control" 
+							    id="exampleFormControlInput1"
+							    name="upi"
+							    value={data.upi}
+							    onChange={InputEvent}   
+							    placeholder="UPI ID" 
+						    />
+						  </div>
+						  <div className="mb-3">
+						    <label for="exampleFormControlInput1" className="form-label"> Phone Number </label>
+						    <input 
+							    type="number" 
+							    className="form-control" 
+							    id="exampleFormControlInput1"
+							    name="phonenum"
+							    value={data.phonenum}
+							    onChange={InputEvent}   
+							    placeholder="Phone Number" 
+						    />
+						  </div>							    
 						  </div>
 						  <div className="col-12">
 							  <button className="btn btn-outline-primary" type="submit"> Get Started </button>

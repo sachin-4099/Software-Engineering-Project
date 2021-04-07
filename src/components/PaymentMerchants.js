@@ -70,7 +70,7 @@ const PaymentMerchants = () => {
     const [couponmap, setCouponmap] = useState(new Map());
 
     async function get_coupons(merchantid) {
-	    const res = await fetch(`/list/coupon?merchantid=${merchantid}`, {
+	    const res = await fetch(`/list/coupon?merchant_id=${merchantid}`, {
 				  method: 'GET',
 				  headers: {
 						'Content-Type': 'application/json'
@@ -212,7 +212,8 @@ const PaymentMerchants = () => {
                 
 			  	if(value.ok)
 		  		{ 
-					  const res = fetch("/confirm/payment_merchant", {
+		  			  const percentage = data.percentage.slice(0, -1)  
+					  const res = fetch("/confirm/payment/merchant", {
 						  method: 'POST',
 						  headers: {
 								'Content-Type': 'application/json'
@@ -222,7 +223,7 @@ const PaymentMerchants = () => {
 								 amount: data.amount,
 								 currency: "INR",
 								 payment_category_id: data.category_id,
-								 percentage_category: data.percentage,
+								 category_percentage: percentage,
 								 merchant_id: data.merchant_id,
 								 coupon_id: data.coupon_id
 						  })

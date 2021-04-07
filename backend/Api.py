@@ -82,13 +82,13 @@ def authUser():
 @app.route("/confirm/payment/merchant", methods=["POST"])
 def confirm_payment_merchant():
     req = request.json
-    userid = req.get("userid")
-    amount = req.get("amount")
+    userid = int(req.get("userid"))
+    amount = int(req.get("amount"))
     currency = req.get("currency")
-    payment_category_id = req.get("payment_category_id")
-    category_percentage = req.get("category_percentage")
-    coupon_id = req.get("coupon_id")
-    merchant_id = req.get("merchant_id")
+    payment_category_id = int(req.get("payment_category_id"))
+    category_percentage = float(req.get("category_percentage"))
+    coupon_id = int(req.get("coupon_id"))
+    merchant_id = int(req.get("merchant_id"))
     response = PaymentService.confirm_payment_merchant(userid, amount, currency, payment_category_id,
                                                        category_percentage,
                                                        coupon_id,

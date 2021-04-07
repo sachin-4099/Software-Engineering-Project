@@ -34,13 +34,28 @@ const FinalPaymentMerchant = () => {
 				order_id: state[0].order_id,
 			    handler: async (response) => {
 			      try {
+			       console.log(response)	
 			       const paymentId = response.razorpay_payment_id;
 			       const orderId = response.razorpay_order_id;
 			       const signature = response.razorpay_signarure;
 			       alert(`Payment Successful`);
+	       		  
+	       		   const res = fetch("/successful_payment", {
+					   method: 'POST',
+					   headers: {
+							 'Content-Type': 'application/json'
+					   },
+					   body: JSON.stringify({
+							  razorpay_payment_id: paymentId,
+							  razorpay_order_id: orderId,
+							  razorpay_signature: signature
+					   })
+				   });
+
    		  		   let path = "/successpayment"; 
 				   history.push(path);
 			      }   catch (err) {
+			      	console.log(response);
 			        console.log(err);
 			      }
 			    },
@@ -57,6 +72,16 @@ const FinalPaymentMerchant = () => {
 	      const rzp1 = new window.Razorpay(options);
 
 	      rzp1.open();
+
+	      {/*rzp1.on('payment.failed', function (response){
+		    alert(response.error.code);
+		    alert(response.error.description);
+		    alert(response.error.source);
+		    alert(response.error.step);
+		    alert(response.error.reason);
+		    alert(response.error.metadata.order_id);
+		    alert(response.error.metadata.payment_id);
+		});*/}
 
 
     };

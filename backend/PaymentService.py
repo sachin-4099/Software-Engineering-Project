@@ -83,7 +83,7 @@ def confirm_payment_merchant(userid, actual_amount, order_currency, payment_cate
                                         "currency": order_currency,
                                         "category_id": payment_category_id, "amount_saved": final_savings,
                                         "paid_to": merchant_id, "paid_to_type": 'M',
-                                        "transaction_at": resp.get("created_at")})
+                                        "transaction_at": datetime.now()})
         return response
     except Exception as e:
         print(e)
@@ -143,7 +143,7 @@ def confirm_payment_non_merchant(userid, actual_amount, order_currency, payment_
                                         "currency": order_currency,
                                         "category_id": payment_category_id, "amount_saved": final_savings,
                                         "paid_to": paid_to_id, "paid_to_type": 'N',
-                                        "transaction_at": resp.get("created_at")})
+                                        "transaction_at": datetime.now()})
         return response
     except Exception as e:
         print(e)
