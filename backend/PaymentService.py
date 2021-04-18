@@ -1,7 +1,9 @@
 import configparser
+import json
 from datetime import datetime
 
 import razorpay
+import requests
 
 import DB as db
 from Exception import DatabaseOperationException, RazorpayApiException
@@ -55,7 +57,7 @@ def confirm_payment_merchant(userid, actual_amount, order_currency, payment_cate
         "coupon_id": coupon_id,
         "paid_to_id": merchant_id,
         "paid_by_id": userid,
-        "actual_amount": actual_amount
+        "actual_amount": (actual_amount - final_discount) * 100
     }
     data = {
         "amount": final_amt * 100,
@@ -113,7 +115,7 @@ def confirm_payment_non_merchant(userid, actual_amount, order_currency, payment_
         "paid_to": paid_to_id,
         "paid_to_upi": upi_id,
         "paid_by": userid,
-        "actual_amount": actual_amount
+        "actual_amount": actual_amount * 100
     }
     data = {
         "amount": final_amt * 100,
@@ -144,6 +146,7 @@ def confirm_payment_non_merchant(userid, actual_amount, order_currency, payment_
                                         "category_id": payment_category_id, "amount_saved": final_savings,
                                         "paid_to": paid_to_id, "paid_to_type": 'N',
                                         "transaction_at": datetime.now()})
+
         return response
     except Exception as e:
         print(e)
@@ -170,24 +173,69 @@ def get_transactions(userid):
         resp.append(temp)
     return resp
 
-def success_transaction(order_id):
-    resp = client.order.fetch(order_id)
-    notes = resp.get("notes")
-    payment_category_id = notes.get("payment_category_id")
-    category_percentage = notes.get("percentage_category")
-    coupon_id = notes.get("coupon_id")
+
+def verify_payment_signature(payment_id, order_id, sign):
+    params_dict = {
+        'razorpay_order_id': order_id,
+        'razorpay_payment_id': payment_id,
+        'razorpay_signature': sign
+    }
+    result = None
+    try:
+        if (client.utility.verify_payment_signature(params_dict) == None): result = True
+    except razorpay.errors.SignatureVerificationError:
+        result = False
+    return result
 
 
-# TODO: validate orders
+def success_transaction(payment_id, order_id, payment_signature):
+    if verify_payment_signature(payment_id, order_id, payment_signature):
+        print("Payment Signature Verified")
+        # update status of transaction in DB
+    else:
+        print("false")
+        # update status of transaction in DB
+    order_details = client.order.fetch(order_id)
+    print(order_details)
+    notes = order_details.get("notes")
+    paid_to_id = notes.get("paid_to_id")
+    actual_amount = notes.get("actual_amount")
+    merchant_details = db.get_merchant_from_id(paid_to_id)
+    merchant_account_id = merchant_details[2]
+    payload = json.dumps({
+        "transfers": [
+            {
+                "account": merchant_account_id,
+                "amount": actual_amount,
+                "currency": "INR",
+                "notes": notes,
+            }
+        ]
+    })
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    try:
+        response = requests.post("https://api.razorpay.com/v1/payments/{}/transfers".format(payment_id),
+                                 auth=(USER_KEY, SECRET_KEY), headers=headers, data=payload)
+        print(response.json())
+        # update DB status
+        return {"success": True}
+    except:
+        # update DB failed
+        return {"success": False}
+
 
 def failed_transaction(order_id):
-    print("sFAILED")
+    # update db status
+    return {"success": False}
 
 
-def validate_transaction(order_id, success):
+def validate_transaction(payment_id, order_id, payment_signature, success):
+    resp = None
     if (success):
-        success_transaction(order_id)
+        resp = success_transaction(payment_id, order_id, payment_signature)
     else:
-        failed_transaction(order_id)
-    resp = {"Success": True}
+        resp = failed_transaction(order_id)
     return resp

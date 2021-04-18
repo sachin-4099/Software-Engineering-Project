@@ -11,8 +11,8 @@ create table userdb(
 
 create table admindb(
 	userid SERIAL PRIMARY KEY,
-	firstname VARCHAR(255) NOT NULL,
-	lastname VARCHAR(255),
+	first_name VARCHAR(255) NOT NULL,
+	last_name VARCHAR(255),
 	username VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
 );

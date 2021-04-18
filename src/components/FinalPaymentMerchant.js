@@ -37,7 +37,7 @@ const FinalPaymentMerchant = () => {
 			       console.log(response)	
 			       const paymentId = response.razorpay_payment_id;
 			       const orderId = response.razorpay_order_id;
-			       const signature = response.razorpay_signarure;
+			       const signature = response.razorpay_signature;
 			       alert(`Payment Successful`);
 	       		  
 	       		   const res = fetch("/successful_payment", {
@@ -48,9 +48,12 @@ const FinalPaymentMerchant = () => {
 					   body: JSON.stringify({
 							  razorpay_payment_id: paymentId,
 							  razorpay_order_id: orderId,
-							  razorpay_signature: signature
+							  razorpay_signature: signature,
+							  success: true
 					   })
 				   });
+
+				   console.log(res)
 
    		  		   let path = "/successpayment"; 
 				   history.push(path);

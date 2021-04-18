@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Cookies from 'js-cookie';
+import Select from 'react-select';
 import LoginNavbar from './LoginNavbar';
 
 const Contact = () => {
@@ -48,30 +49,14 @@ const Contact = () => {
 				<div className="row">
 					<div className="col-md-6 col-10 mx-auto">
 						<form onSubmit={formSubmit}>
-						  <div className="mb-3">
-						    <label for="exampleFormControlInput1" className="form-label"> Full Name </label>
-						    <input 
-							    type="text" 
-							    className="form-control" 
-							    id="exampleFormControlInput1"
-							    name="fname"
-							    value={data.fname}
-							    onChange={InputEvent} 
-							    placeholder="Enter your name" 
-						    />
-						  </div>						
-						  <div className="mb-3">
-						    <label for="exampleFormControlInput1" className="form-label"> Email Address </label>
-						    <input 
-							    type="email" 
-							    className="form-control" 
-							    id="exampleFormControlInput1"
-							    name="email"
-							    value={data.email}
-							    onChange={InputEvent}  
-							    placeholder="Email Address" 
-						    />
-						  </div>						  
+			              <div className="mb-3">  
+		                    <label className="form-label"> Transaction ID </label>
+		                    <Select 
+		                     onChange={InputEvent}
+		                     placeholder="Transaction ID"
+		                     label="Single select"
+		                    />
+			              </div>   					  
   						  <div className="mb-3">
 						    <label for="exampleFormControlTextArea1" className="form-label"> Message </label>
 						    <textarea
@@ -85,7 +70,7 @@ const Contact = () => {
 						    ></textarea>
 						  </div>
 						  <div className="col-12">
-							  <button className="btn btn-outline-primary" type="submit">Submit form</button>
+							  <button className="btn btn-outline-primary" type="submit">Submit Query</button>
 						  </div>						  
 						</form>
 					</div>

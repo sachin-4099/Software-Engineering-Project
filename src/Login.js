@@ -98,6 +98,10 @@ const Login = () => {
 						  </div>
 						  <div className="col-12">
 							  <button className="btn btn-outline-primary" type="submit"> Login </button>
+						  </div>
+  						  <div className="col-12">
+							  <br/>
+							  Forgot Password?
 						  </div>						  
 						</form>
 					</div>

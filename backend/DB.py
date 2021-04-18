@@ -100,6 +100,12 @@ def auth_user(uname, password):
     return result
 
 
+def get_merchant_from_id(id):
+    query = "select * from merchants where merchant_id = %s"
+    merchants = execute_query(query, [id])
+    return merchants[0]
+
+
 def execute_query(query, params=None):
     cur, conn = connect_to_db()
     cur.execute(query, params)

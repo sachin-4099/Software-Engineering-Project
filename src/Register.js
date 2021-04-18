@@ -95,6 +95,7 @@ const Register = () => {
 							    onChange={InputEvent}   
 							    placeholder="Last Name" 
 						    />
+						  </div>
 						  <div className="mb-3">
 						    <label for="exampleFormControlInput1" className="form-label"> Email Address </label>
 						    <input 
@@ -142,8 +143,18 @@ const Register = () => {
 							    onChange={InputEvent}   
 							    placeholder="Phone Number" 
 						    />
-						  </div>							    
-						  </div>
+						  </div>	
+  						  <div className="mb-3">
+						    <label for="exampleFormControlInput1" className="form-label"> Referral Code </label>
+						    <input 
+							    type="text" 
+							    className="form-control" 
+							    id="exampleFormControlInput1"
+							    name="phonenum"
+							    onChange={InputEvent}   
+							    placeholder="Referral Code" 
+						    />
+						  </div>						    
 						  <div className="col-12">
 							  <button className="btn btn-outline-primary" type="submit"> Get Started </button>
 						  </div>						  
