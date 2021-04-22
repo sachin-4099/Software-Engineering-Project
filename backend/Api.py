@@ -103,12 +103,13 @@ def confirm_payment_merchant():
 @app.route("/confirm/payment/non_merchant", methods=["POST"])
 def confirm_payment_non_merchant():
     req = request.json
-    userid = req.get("userid")
-    amount = req.get("amount")
+    userid = int(req.get("userid"))
+    amount = int(req.get("amount"))
     currency = req.get("currency")
-    payment_category_id = req.get("payment_category_id")
-    category_percentage = req.get("category_percentage")
-    payee_phone_number = req.get("payee_phone_number")
+    payment_category_id = int(req.get("payment_category_id"))
+    category_percentage = int(req.get("category_percentage"))
+    payee_phone_number = int(req.get("phone_number")[1:])
+
     # payee_phone_number = payee_phone_number[1:]
     response = PaymentService.confirm_payment_non_merchant(userid, amount, currency, payment_category_id,
                                                            category_percentage, payee_phone_number)

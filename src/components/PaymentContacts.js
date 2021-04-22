@@ -122,7 +122,8 @@ const PaymentContacts = () => {
 	                
 				  	if(value.ok)
 			  		{ 
-						  const res = fetch("/confirm/payment_nonmerchant", {
+			  			  const percentage = data.percentage.slice(0, -1)  
+						  const res = fetch("/confirm/payment/non_merchant", {
 							  method: 'POST',
 							  headers: {
 									'Content-Type': 'application/json'
@@ -132,7 +133,7 @@ const PaymentContacts = () => {
 									 amount: data.amount,
 									 currency: "INR",
 									 payment_category_id: data.category_id,
-									 percentage_category: data.percentage,
+									 category_percentage: percentage,
 									 phone_number: data.phonenum
 							  })
 						  });

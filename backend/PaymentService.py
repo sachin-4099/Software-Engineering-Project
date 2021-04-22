@@ -94,6 +94,7 @@ def confirm_payment_merchant(userid, actual_amount, order_currency, payment_cate
 
 def confirm_payment_non_merchant(userid, actual_amount, order_currency, payment_category_id, category_percentage,
                                  payee_phone_number):
+    print(actual_amount, category_percentage)
     final_savings = (actual_amount * category_percentage) / 100
     final_amt = actual_amount + final_savings
     query = "select first_name, last_name, upi, userid from userdb where phone_number=%s"

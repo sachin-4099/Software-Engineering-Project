@@ -83,6 +83,7 @@ def get_admin_id_from_username(uname):
 
 def auth_user(uname, password):
     res = check_if_exist(uname)
+    print(res)
     result = {"status": False, "user_id": None, "designation": None}
     if (res.get("designation")):
         designation = res.get("designation")
