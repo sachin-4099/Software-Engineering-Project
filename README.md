@@ -10,6 +10,7 @@ purchase can become an investment with Round-Ups. It will directly impact
 the teenagers who cannot control their expenditure. Through this, we aim to
 promote financial literacy by emphasizing the importance of saving money and
 investing it early.
+For more information and description, please refer to [Report](https://drive.google.com/file/d/1voRmzSLMLyNE3mH69m7NHZmBEvcQIpoZ/view?usp=sharing)
 
 # Project Description
 ## Motivation
@@ -57,10 +58,13 @@ Reduces stress caused due to unwanted expenditure
 An all in one and hassle-free integrated platform for savings and invest-
 ments
 
-## How to run?
-> Clone the repository
-> Install Flask, reactJS, postgreSQL
-> Create database in postgreSQL using the backend/db_V1.sql file
-> Populate the admin db
-> run react server
-> run backend flask server
+# How to run?
+
+Clone the repository
+
+ 1. List item
+ 2. Install Flask, reactJS, postgreSQL
+ 3. Create database in postgreSQL using the backend/db_V1.sql file
+ 4. Populate the admin table
+ 5. Run react server
+ 6. Run backend flask server
